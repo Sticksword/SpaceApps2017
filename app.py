@@ -18,7 +18,6 @@ def index():
 if __name__ == '__main__':
     port = 5000
     print('Starting app on port %d' % port)
-    db.create_all()
     app.run(debug=True, port=port, host='0.0.0.0')
     url_for('static', filename='app.js')
     url_for('static', filename='app.css')
