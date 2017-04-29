@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, redirect, url_for, render_template, jsonify, g
+from flask import Flask, redirect, url_for, render_template, jsonify, g, request
 from pyproj import Proj, transform
 import sqlite3, csv, requests
 
@@ -23,7 +23,7 @@ def init_db():
             datarow = csv.DictReader(fin) # comma is default delimiter
             to_db = [(i['longitude'], i['latitude'], i['type']) for i in datarow]
 
-        db.cursor().executemany("INSERT INTO CropData (longitude, latitude, type) VALUES (?, ?, ?);", to_db)
+        db.cursor().executemany('INSERT INTO CropData (longitude, latitude, type) VALUES (?, ?, ?);', to_db)
         db.commit()
 
 def get_db():
@@ -49,6 +49,15 @@ def query_db(query, args=(), one=False):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/points', methods=['GET'])
+def getPoints():
+    lat_1 = request.args.get('lat_1')
+    lat_2 = request.args.get('lat_2')
+    lon_1 = request.args.get('lon_1')
+    lon_2 = request.args.get('lon_2')
+    query = 'SELECT * FROM CropData WHERE latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?'
+    return jsonify(query_db(query, [lat_1, lat_2, lon_1, lon_2]))
 
 @app.route('/anothertest')
 def wheee():
