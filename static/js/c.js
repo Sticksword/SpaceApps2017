@@ -5,7 +5,7 @@ var model = {
     init : function(){
 
     },
-    url:"http://localhost:5000/",
+    url:"/",
     data:[],
     currentIndex:0,
     rectangles:null
