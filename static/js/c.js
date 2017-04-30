@@ -6,6 +6,14 @@ var CROP_TYPES = {
     5: {
         'name': 'Soybean',
         'opacity-thresh': 277805.75
+    },
+    43: {
+        'name': 'Potatoes',
+        'opacity-thresh': 517.146707713
+    },
+    6: {
+        'name': 'Sunflower',
+        'opacity-thresh': 223.496088597
     }
 };
 
@@ -92,11 +100,7 @@ var control = {
             model.predictedData = data.predicted;
 
             console.log('got data');
-            document.getElementById("cronCurrent").disabled = false;
-            document.getElementById("cronPredicted").disabled = false;
-
-            document.getElementById("soybeanCurrent").disabled = false;
-            document.getElementById("soybeanPredicted").disabled = false;
+            $('#crop_selection input[type=checkbox]').disabled = false;
 
             $('#crop_selection input[type=checkbox]').click(function(){
                 console.log('clicked');
@@ -110,32 +114,6 @@ var control = {
 
             console.log('bound listeners');
 
-            //control.putData();
-            // for(var i = 0; i < data.current.length; i++){
-            //     if(data.current[i].type == 1){
-            //         //var count = 0
-            //         var indensity = (data.current[i].ct/138233.5)*0.5;
-            //         if (indensity > 0.5){
-            //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-            //         }else{
-            //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
-            //         }
-
-            //     }
-            // }
-
-            // for(var i = 0; i < data.predicted.length; i++){
-            //     if(data.predicted[i].type == 1){
-            //         //var count = 0
-            //         var indensity = (data.predicted[i].ct/138233.5)*0.5;
-            //         if (indensity > 0.5){
-            //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
-            //         }else{
-            //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
-            //         }
-
-            //     }
-            // }
         }).error(function () {
             console.log('cannot load index data');
         });
@@ -573,9 +551,5 @@ function uncheck() {
 $(document).ready(function () {
     control.init();
     control.ajaxClick("points", 28, -125, 48, -60);
-    document.getElementById("cronCurrent").disabled = true;
-    document.getElementById("cronPredicted").disabled = true;
-
-    document.getElementById("soybeanCurrent").disabled = true;
-    document.getElementById("soybeanPredicted").disabled = true;
+    $('#crop_selection input[type=checkbox]').disabled = true;
 });
