@@ -82,31 +82,31 @@ var control = {
             model.currentData = data.current;
             model.predictedData = data.predicted;
             //control.putData();
-            for(var i = 0; i < data.current.length; i++){
-                if(data.current[i].type == 1){
-                    //var count = 0
-                    var indensity = (data.current[i].ct/138233.5)*0.5;
-                    if (indensity > 0.5){
-                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-                    }else{
-                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
-                    }
+            // for(var i = 0; i < data.current.length; i++){
+            //     if(data.current[i].type == 1){
+            //         //var count = 0
+            //         var indensity = (data.current[i].ct/138233.5)*0.5;
+            //         if (indensity > 0.5){
+            //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+            //         }else{
+            //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+            //         }
 
-                }
-            }
+            //     }
+            // }
 
-            for(var i = 0; i < data.predicted.length; i++){
-                if(data.predicted[i].type == 1){
-                    //var count = 0
-                    var indensity = (data.predicted[i].ct/138233.5)*0.5;
-                    if (indensity > 0.5){
-                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
-                    }else{
-                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
-                    }
+            // for(var i = 0; i < data.predicted.length; i++){
+            //     if(data.predicted[i].type == 1){
+            //         //var count = 0
+            //         var indensity = (data.predicted[i].ct/138233.5)*0.5;
+            //         if (indensity > 0.5){
+            //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+            //         }else{
+            //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+            //         }
 
-                }
-            }
+            //     }
+            // }
         }).error(function(){
             console.log('cannot load index data');
         });
@@ -158,7 +158,7 @@ var cropView = {
             var s = latY;
             s = latReal(s);
 
-            var n = latY + oneMin;
+            var n = latY + oneMin - 0.06;
             n = latReal(n);
 
             var location = [w,s,e,n];
@@ -342,7 +342,7 @@ function setupLayers() {
                 tileHeight: 256,
                 tilingScheme: gibs.GeographicTilingScheme()
             }),1.0,false);
-    
+
         addAdditionalLayerOption(
             'Aquarius_Soil_Moisture_Daily',
             new Cesium.WebMapTileServiceImageryProvider({
@@ -356,7 +356,7 @@ function setupLayers() {
                 tileHeight: 256,
                 tilingScheme: gibs.GeographicTilingScheme()
             }),1.0,false);
-       
+
         addAdditionalLayerOption(
             'MISR_Land_NDVI_Average_Monthly',
             new Cesium.WebMapTileServiceImageryProvider({
@@ -476,6 +476,110 @@ var Crop = function(data){
   self.name = ko.observable(data.name);
   self.value = ko.observable(data.value);
   self.color = ko.observable(data.color);
+}
+
+function check() {
+    var cronCurrentCheck = document.getElementById("cronCurrent").checked;
+    var cronPredictedCheck = document.getElementById("cronPredicted").checked;
+
+    var soybeanCurrentCheck = document.getElementById("soybeanCurrent").checked;
+    var soybeanPredictedCheck = document.getElementById("soybeanPredicted").checked;
+    mapViewer.scene.primitives.removeAll();
+
+    // cronCurrentCheck
+    if (cronCurrentCheck){
+        for(var i = 0; i < model.currentData.length; i++){
+            if(model.currentData[i].type == 1){
+                //var count = 0
+                var indensity = (model.currentData[i].ct/138233.5)*0.5;
+                if (indensity > 0.5){
+                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                }else{
+                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+                }
+
+            }
+        }
+
+    }
+
+    // cronPredictedCheck
+    if (cronPredictedCheck){
+        for(var i = 0; i < model.predictedData.length; i++){
+            if(model.predictedData[i].type == 1){
+                //var count = 0
+                var indensity = (model.predictedData[i].ct/138233.5)*0.5;
+                if (indensity > 0.5){
+                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+                }else{
+                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+                }
+
+            }
+        }
+    }
+
+    // soybeanCurrentCheck
+    if (soybeanCurrentCheck){
+        for(var i = 0; i < model.currentData.length; i++){
+            if(model.currentData[i].type == 229){
+                //var count = 0
+                var indensity = (model.currentData[i].ct/138233.5)*0.5;
+                if (indensity > 0.5){
+                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                }else{
+                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+                }
+
+            }
+        }
+    }
+
+    // soybeanPredictedCheck
+    if (soybeanPredictedCheck){
+        for(var i = 0; i < model.predictedData.length; i++){
+            if(model.predictedData[i].type == 229){
+                //var count = 0
+                var indensity = (model.predictedData[i].ct/138233.5)*0.5;
+                if (indensity > 0.5){
+                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+                }else{
+                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+                }
+
+            }
+        }
+    }
+    //control.putData();
+    // for(var i = 0; i < data.current.length; i++){
+    //     if(data.current[i].type == 1){
+    //         //var count = 0
+    //         var indensity = (data.current[i].ct/138233.5)*0.5;
+    //         if (indensity > 0.5){
+    //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+    //         }else{
+    //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+    //         }
+
+    //     }
+    // }
+
+    // for(var i = 0; i < data.predicted.length; i++){
+    //     if(data.predicted[i].type == 1){
+    //         //var count = 0
+    //         var indensity = (data.predicted[i].ct/138233.5)*0.5;
+    //         if (indensity > 0.5){
+    //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+    //         }else{
+    //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+    //         }
+
+    //     }
+    // }
+}
+
+function uncheck() {
+    document.getElementById("myCheck").checked = false;
 }
 
 // var ViewModelCrop = function(){
