@@ -1,18 +1,42 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
+<style>
+	.container{
+	    text-align: center;
+	}
+	.flex-container {
+	    display: -webkit-flex;
+	    display: flex;
+	    -webkit-flex-flow: row wrap;
+	    flex-flow: row wrap;
+	    text-align: center;
+	}
+
+	.flex-container > * {
+	    padding: 15px;
+	    -webkit-flex: 1 100%;
+	    flex: 1 100%;
+	}
+
+	header {background: green;color:white;}
+
+</style>
+
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252 ">
 	<link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
 	<script type="text/javascript" src="{{url_for('static', filename='js/jquery-1.12.0.min.js')}}"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='js/Cesium/Cesium.js')}}"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='libs/gibs.js')}}"></script>
-	<script type="text/javascript" src="{{url_for('static', filename='js/CesiumHeatmap.js')}}"></script>
 	<link rel="stylesheet" href="{{url_for('static', filename='css/bucket.css')}}"></link>
 	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}"></link>
 	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"></link>
 
-	<title>NASA Space App Challenge 2017</title>
+<title>NASA Space App Challenge 2017</title>
+
+
 </head>
 <body>
 	<div class="container">
@@ -20,6 +44,13 @@
 		<div class="row">
 			<h1 class="title">NASA Space App Challenge 2017</h1>
 		</div>
+
+	<div class="flex-container">
+		<header>
+  		<h1>Far East Farmers</h1>
+		</header>
+	</div>
+
 		<!-- Map -->
 		<div class="row">
 			<div class="col-md-12" style="height: 550px; padding-left: 0px;padding-right: 0px;margin-bottom: -10px;">
@@ -44,9 +75,12 @@
 			</div>
 		</div>
 
+		<img src="teamMember.png" alt="TeamMemberIcon" style="width:80px;height:80px;">
 		<!-- footer -->
 		<div class="row">
-			<h3 class="footer">Team #12</h3>
+			<h3 class="footer">Hackers:
+				Bruce Wu/ Gina Hsu/ Mark Lai/ Michael Chen/ Ryan Lee
+			</h3>
 		</div>
 	</div>
 
@@ -54,3 +88,5 @@
 	<script type="text/javascript" src="{{url_for('static', filename='js/c.js')}}"></script>
 </body>
 </html>
+
+
