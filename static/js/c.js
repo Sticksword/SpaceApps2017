@@ -56,7 +56,12 @@ var onClockUpdate = function() {
     var time = isoDate(isoDateTime);
     if ( time !== previousTime ) {
         previousTime = time;
-        updateLayers();
+        //updateLayers();
+        //Bind the viewModel to the DOM elements of the UI that call for it.
+        //var toolbar = document.getElementById('toolbar');
+        //var element = document.getElementById('toolbar'); 
+        //Cesium.knockout.cleanNode(element);
+        //Cesium.knockout.applyBindings(viewModel, element);
     }
 };
 
@@ -75,8 +80,10 @@ var control = {
             model.data = data;
             //control.putData();
             for(var i = 0; i < data.length; i++){
-                var count = 0
-                cropView.cropLayer(data[i]);
+                if(data[i].type == 1){
+                    var count = 0
+                    cropView.cropLayer(data[i]);
+                }
             }
         }).error(function(){
             console.log('cannot load index data');
@@ -301,7 +308,7 @@ function setupLayers() {
             }));
 
     // Create the additional layers
-    addAdditionalLayerOption(
+    /*addAdditionalLayerOption(
             'United States GOES Infrared',
             new Cesium.WebMapServiceImageryProvider({
                 url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?',
@@ -312,7 +319,7 @@ function setupLayers() {
                     format : 'image/png'
                 },
                 // proxy : new Cesium.DefaultProxy('/proxy/')
-            }));
+            }));*/
     addAdditionalLayerOption(
             'United States Weather Radar',
             new Cesium.WebMapServiceImageryProvider({
@@ -325,12 +332,14 @@ function setupLayers() {
                 },
                 // proxy : new Cesium.DefaultProxy('/proxy/')
             }));
+    /*
     addAdditionalLayerOption(
             'Grid',
-            new Cesium.GridImageryProvider(), 1.0, false);
+            new Cesium.GridImageryProvider());
     addAdditionalLayerOption(
             'Tile Coordinates',
-            new Cesium.TileCoordinatesImageryProvider(), 1.0, false);
+            new Cesium.TileCoordinatesImageryProvider());
+    */
 }
 setupLayers();
 updateLayerList();
@@ -368,6 +377,7 @@ function updateLayerList() {
 var toolbar = document.getElementById('toolbar');
 Cesium.knockout.applyBindings(viewModel, toolbar);
 
+
 Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(baseLayer) {
     // Handle changes to the drop-down base layer selector.
     var activeLayerIndex = 0;
@@ -393,5 +403,5 @@ onClockUpdate();
 
 $(document).ready(function(){
     control.init();
-    control.ajaxClick("points",30,-130,40,-120)
+    control.ajaxClick("points",30,-130,40,-120);
 });
