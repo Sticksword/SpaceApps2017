@@ -16,7 +16,7 @@ var initialTime = Cesium.JulianDate.fromDate(
 
 // Earliest date of Corrected Reflectance in archive: May 8, 2012
 var startTime = Cesium.JulianDate.fromDate(
-        new Date(Date.UTC(2012, 4, 8)));
+        new Date(Date.UTC(2012, 5, 8)));
 
 var endTime = Cesium.JulianDate.now();
 
@@ -35,17 +35,31 @@ var clock = new Cesium.Clock({
             endTime: endTime,
             currentTime: initialTime,
             multiplier: 0,   // Don't start animation by default
-            clockRange: Cesium.ClockRange.CLAMPED
+            clockRange: Cesium.ClockRange.UNBOUNDED
             });
+
+var updateLayers = throttle(function() {
+    var isoDateTime = clock.currentTime.toString();
+    var time = isoDate(isoDateTime);
+    var layers = mapViewer.scene.imageryLayers;
+    layers.removeAll();
+
+    setupLayers();
+    /*_.each(selectedSet.layers, function(layer_id) {
+        layers.addImageryProvider(createProvider(layer_id));
+    }*/
+    //setupLayers();
+}, 250, {leading: true, trailing: true});;
 
 var onClockUpdate = function() {
     var isoDateTime = clock.currentTime.toString();
     var time = isoDate(isoDateTime);
     if ( time !== previousTime ) {
         previousTime = time;
-        //updateLayerList();
+        updateLayers();
     }
 };
+
 var control = {
     // initialize function
     init: function(){
@@ -163,8 +177,6 @@ var mapViewer = new Cesium.Viewer('cesiumContainer', {
     sceneMode : Cesium.SceneMode.SCENE2D
 });
 
-mapViewer.clock.onTick.addEventListener(onClockUpdate);
-onClockUpdate();
 
 var imageryLayers = mapViewer.imageryLayers;
 
@@ -201,6 +213,29 @@ var viewModel = {
 Cesium.knockout.track(viewModel);
 var baseLayers = viewModel.baseLayers;
 
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last,
+      deferTimer;
+  return function () {
+    var context = scope || this;
+
+    var now = +new Date,
+        args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+}
+
 function setupLayers() {
     // Create all the base layers that this example will support.
     // These base layers aren't really special.  It's possible to have multiple of them
@@ -208,7 +243,7 @@ function setupLayers() {
     // all of these layers cover the entire globe and are opaque.
     var isoDateTime = clock.currentTime.toString();
     var time = "TIME=" + isoDate(isoDateTime);
-
+/*
     addBaseLayerOption(
             'Bing Maps Aerial',
             undefined); // the current base layer
@@ -249,7 +284,7 @@ function setupLayers() {
                 maximumLevel: 19,
                 credit : new Cesium.Credit('U. S. Geological Survey')
             }));
-
+*/
     // Create the additional layers
     addAdditionalLayerOption(
             'MODIS',
@@ -352,6 +387,9 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
     baseLayer.alpha = alpha;
     updateLayerList();
 });
+
+mapViewer.clock.onTick.addEventListener(onClockUpdate);
+onClockUpdate();
 
 $(document).ready(function(){
     control.init();
