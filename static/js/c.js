@@ -6,6 +6,9 @@ var model = {
 
     },
     url:"http://localhost:5000/",
+    data:[],
+    currentIndex:0,
+    rectangles:null
 };
 // Initially start at June 15, 2014
 var initialTime = Cesium.JulianDate.fromDate(
@@ -54,17 +57,17 @@ var control = {
     ajaxClick: function(path, lat1, lon1, lat2, lon2){
         var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2;
         url = model.url+path+query;
-        console.log(url)
         $.getJSON(url,function(data){
+            model.data = data;
+            //control.putData();
             for(var i = 0; i < data.length; i++){
+                var count = 0
                 cropView.cropLayer(data[i]);
             }
-            mapViewer.zoomTo(mapViewer.entities);
         }).error(function(){
             console.log('cannot load index data');
         });
-
-    },
+    }
 };
 
 var cropView = {
@@ -101,7 +104,7 @@ var cropView = {
         var calculate = function(lonX, latY){
 
             //1 min cover area(1/60*0.5)
-            var oneMin = (1/60)*0.5;
+            var oneMin = 30*(1/60)*0.5;
 
             var e = lonX + oneMin;
             e = lonReal(e);
@@ -118,17 +121,31 @@ var cropView = {
             var location = [w,s,e,n];
             return location;
         };
-        var result = calculate(item.longitude,item.latitude);
-        mapViewer.entities.add({
-        name : item.id,
-        rectangle : {
-            coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
-            material : Cesium.Color.RED,
-            height : 100000.0,
-            outline : false,
-            outlineColor : Cesium.Color.WHITE
-        }
+        var result = calculate(item.lng,item.lat);
+
+        var instance = new Cesium.GeometryInstance({
+          geometry : new Cesium.RectangleGeometry({
+            rectangle : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+            vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
+          })
         });
+
+        mapViewer.scene.primitives.add(new Cesium.Primitive({
+          geometryInstances : instance,
+          appearance : new Cesium.EllipsoidSurfaceAppearance({
+            material : Cesium.Material.fromType('Color', {
+                            color : new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+                        })
+          })
+        }));
+        // model.rectangles.add({
+        // name : item.id,
+        // rectangle : {
+        //     coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+        //     material : Cesium.Color.RED.withAlpha(0.5),
+        //     height : 100.0,
+        // }
+        // });
     }
 
 }
@@ -150,6 +167,7 @@ mapViewer.clock.onTick.addEventListener(onClockUpdate);
 onClockUpdate();
 
 var imageryLayers = mapViewer.imageryLayers;
+
 var viewModel = {
     layers : [],
     baseLayers : [],
@@ -337,5 +355,5 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
 
 $(document).ready(function(){
     control.init();
-    control.ajaxClick("points",40,-100,60,-90)
+    control.ajaxClick("points",30,-130,40,-120)
 });
