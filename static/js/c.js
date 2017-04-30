@@ -316,19 +316,66 @@ function setupLayers() {
 */
     // Create the additional layers
     addAdditionalLayerOption(
-            'MODIS',
+            'MODIS_Terra_Cloud_Water_Path',
             new Cesium.WebMapTileServiceImageryProvider({
                 url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
-                layer: "MODIS_Terra_CorrectedReflectance_TrueColor",
+                layer: "MODIS_Terra_Cloud_Water_Path",
                 style: "",
-                format: "image/jpeg",
-                tileMatrixSetID: "EPSG4326_250m",
-                maximumLevel: 8,
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_1km",
+                maximumLevel: 6,
                 tileWidth: 256,
                 tileHeight: 256,
                 tilingScheme: gibs.GeographicTilingScheme()
-            }));
+            }),1.0,true);
 
+    addAdditionalLayerOption(
+            'AIRS_Precipitation_Day',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "AIRS_Precipitation_Day",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+    
+        addAdditionalLayerOption(
+            'Aquarius_Soil_Moisture_Daily',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "Aquarius_Soil_Moisture_Daily",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+       
+        addAdditionalLayerOption(
+            'MISR_Land_NDVI_Average_Monthly',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "MISR_Land_NDVI_Average_Monthly",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+        /*addAdditionalLayerOption(
+            'Daymet_v3',
+            new Cesium.WebMapServiceImageryProvider({
+                url : 'https://thredds.ornl.gov/thredds/wms/ornldaac/1328/1988/daymet_v3_tmin_1988_na.nc4',
+                layers : '0',
+            }));*/
     // Create the additional layers
     /*addAdditionalLayerOption(
             'United States GOES Infrared',
@@ -342,18 +389,6 @@ function setupLayers() {
                 },
                 // proxy : new Cesium.DefaultProxy('/proxy/')
             }));*/
-    addAdditionalLayerOption(
-            'United States Weather Radar',
-            new Cesium.WebMapServiceImageryProvider({
-                url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?',
-                layers : 'nexrad-n0r',
-                credit : 'Radar data courtesy Iowa Environmental Mesonet',
-                parameters : {
-                    transparent : 'true',
-                    format : 'image/png'
-                },
-                // proxy : new Cesium.DefaultProxy('/proxy/')
-            }));
     /*
     addAdditionalLayerOption(
             'Grid',
