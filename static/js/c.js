@@ -14,17 +14,89 @@ var control = {
     showData: function(){
 
     },
-    ajaxClick: function(path, lat1, lon1, lat2, lat2){
-        var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2
+    ajaxClick: function(path, lat1, lon1, lat2, lon2){
+        var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2;
         url = model.url+path+query;
+        console.log(url)
         $.getJSON(url,function(data){
-            console.log(data)
+            for(var i = 0; i < data.length; i++){
+                cropView.cropLayer(data[i]);
+            }
+            mapViewer.zoomTo(mapViewer.entities);
         }).error(function(){
             console.log('cannot load index data');
         });
 
     },
 };
+
+var cropView = {
+    init:function(){
+
+    },
+    cropLayer:function(item){
+        var lonReal = function (elem){
+            if (elem > 180){
+                elem = -360 + elem;
+                //elem = 179.99;
+            }
+
+            if (elem < -180){
+                elem = 360 + elem;
+                //elem = -179.99;
+            }
+
+            return elem;
+        };
+
+        var latReal = function (elem){
+            if (elem > 90){
+                elem = 89.99;
+            }
+
+            if (elem < -90){
+                 elem = -89.99;
+            }
+
+            return elem;
+        };
+
+        var calculate = function(lonX, latY){
+
+            //1 min cover area(1/60*0.5)
+            var oneMin = (1/60)*0.5;
+
+            var e = lonX + oneMin;
+            e = lonReal(e);
+
+            var w = lonX - oneMin;
+            w = lonReal(w);
+
+            var s = latY - oneMin;
+            s = latReal(s);
+
+            var n = latY + oneMin;
+            n = latReal(n);
+
+            var location = [w,s,e,n];
+            return location;
+        };
+        var result = calculate(item.longitude,item.latitude);
+        mapViewer.entities.add({
+        name : item.id,
+        rectangle : {
+            //Cesium.Rectangle(west, south, east, north)
+            coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+            material : Cesium.Color.RED,
+            //extrudedHeight : 300000.0,
+            height : 100000.0,
+            outline : false,
+            outlineColor : Cesium.Color.WHITE
+        }
+        });
+    }
+
+}
 
 // Generate Cesium map
 var mapViewer = new Cesium.Viewer('cesiumContainer', {
@@ -223,5 +295,17 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
 });
 $(document).ready(function(){
     control.init();
-
+    control.ajaxClick("points",40,-100,60,-90)
+    // mapViewer.entities.add({
+    //     name : 'Corn area',
+    //     rectangle : {
+    //         //Cesium.Rectangle(west, south, east, north)
+    //         coordinates : Cesium.Rectangle.fromDegrees(30,0,40,10),
+    //         material : Cesium.Color.RED,
+    //         //extrudedHeight : 300000.0,
+    //         height : 100000.0,
+    //         outline : true,
+    //         outlineColor : Cesium.Color.WHITE
+    //     }
+    //     });
 });
