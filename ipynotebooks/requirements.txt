@@ -1,5 +1,2 @@
-numpy
-scipy
 requests
 image
-scipy
