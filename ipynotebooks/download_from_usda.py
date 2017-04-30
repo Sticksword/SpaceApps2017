@@ -63,17 +63,11 @@ with open(out_file_name, 'a') as fa:
 
             en += 1
             elapsed_seconds = int(time.time() - start_time)
-            predicted_total_mins = "NaN"
             if data_en:
                 predicted_total_mins = int(total_n / float(data_en) * elapsed_seconds) / 60
-            print("DONE WITH {}/{} ({}%), {} secs / {} mins  {}".format(
-                en, total_n, 100 * en / total_n, elapsed_seconds, predicted_total_mins, status)
-            )
-
-            if data_en > 3:
-                break
-        if data_en > 3:
-            break
+                print("DONE WITH {}/{} ({}%), {} secs / {} mins  {}".format(
+                    en, total_n, 100 * en / total_n, elapsed_seconds, predicted_total_mins, status)
+                )
 
 # upload file to dropbox
 print("Uploading to Dropbox")
