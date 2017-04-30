@@ -1,9 +1,70 @@
 
+var gibs = gibs || {};
+
 var model = {
     init : function(){
 
     },
     url:"http://localhost:5000/",
+    data:[],
+    currentData:[],
+    predictedData:[],
+    currentIndex:0,
+    rectangles:null
+};
+// Initially start at June 15, 2014
+var initialTime = Cesium.JulianDate.fromDate(
+        new Date(Date.UTC(2014, 5, 15)));
+
+// Earliest date of Corrected Reflectance in archive: May 8, 2012
+var startTime = Cesium.JulianDate.fromDate(
+        new Date(Date.UTC(2012, 5, 8)));
+
+var endTime = Cesium.JulianDate.now();
+
+
+
+// Keep track of the previous day. Only update the layer on a tick if the
+// day has actually changed.
+var previousTime = null;
+
+var isoDate = function(isoDateTime) {
+    return isoDateTime.split("T")[0];
+}
+
+var clock = new Cesium.Clock({
+            startTime: startTime,
+            endTime: endTime,
+            currentTime: initialTime,
+            multiplier: 0,   // Don't start animation by default
+            clockRange: Cesium.ClockRange.UNBOUNDED
+            });
+
+var updateLayers = throttle(function() {
+    var isoDateTime = clock.currentTime.toString();
+    var time = isoDate(isoDateTime);
+    var layers = mapViewer.scene.imageryLayers;
+    layers.removeAll();
+
+    setupLayers();
+    /*_.each(selectedSet.layers, function(layer_id) {
+        layers.addImageryProvider(createProvider(layer_id));
+    }*/
+    //setupLayers();
+}, 250, {leading: true, trailing: true});;
+
+var onClockUpdate = function() {
+    var isoDateTime = clock.currentTime.toString();
+    var time = isoDate(isoDateTime);
+    if ( time !== previousTime ) {
+        previousTime = time;
+        //updateLayers();
+        //Bind the viewModel to the DOM elements of the UI that call for it.
+        //var toolbar = document.getElementById('toolbar');
+        //var element = document.getElementById('toolbar');
+        //Cesium.knockout.cleanNode(element);
+        //Cesium.knockout.applyBindings(viewModel, element);
+    }
 };
 
 var control = {
@@ -17,24 +78,46 @@ var control = {
     ajaxClick: function(path, lat1, lon1, lat2, lon2){
         var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2;
         url = model.url+path+query;
-        console.log(url)
         $.getJSON(url,function(data){
-            for(var i = 0; i < data.length; i++){
-                cropView.cropLayer(data[i]);
+            model.currentData = data.current;
+            model.predictedData = data.predicted;
+            //control.putData();
+            for(var i = 0; i < data.current.length; i++){
+                if(data.current[i].type == 1){
+                    //var count = 0
+                    var indensity = (data.current[i].ct/138233.5)*0.5;
+                    if (indensity > 0.5){
+                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                    }else{
+                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+                    }
+
+                }
             }
-            mapViewer.zoomTo(mapViewer.entities);
+
+            for(var i = 0; i < data.predicted.length; i++){
+                if(data.predicted[i].type == 1){
+                    //var count = 0
+                    var indensity = (data.predicted[i].ct/138233.5)*0.5;
+                    if (indensity > 0.5){
+                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+                    }else{
+                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+                    }
+
+                }
+            }
         }).error(function(){
             console.log('cannot load index data');
         });
-
-    },
+    }
 };
 
 var cropView = {
     init:function(){
 
     },
-    cropLayer:function(item){
+    cropLayer:function(item, cropColor){
         var lonReal = function (elem){
             if (elem > 180){
                 elem = -360 + elem;
@@ -64,15 +147,15 @@ var cropView = {
         var calculate = function(lonX, latY){
 
             //1 min cover area(1/60*0.5)
-            var oneMin = (1/60)*0.5;
+            var oneMin = 30*(1/60);
 
             var e = lonX + oneMin;
             e = lonReal(e);
 
-            var w = lonX - oneMin;
+            var w = lonX;
             w = lonReal(w);
 
-            var s = latY - oneMin;
+            var s = latY;
             s = latReal(s);
 
             var n = latY + oneMin;
@@ -81,39 +164,51 @@ var cropView = {
             var location = [w,s,e,n];
             return location;
         };
-        var result = calculate(item.longitude,item.latitude);
-        mapViewer.entities.add({
-        name : item.id,
-        rectangle : {
-            //Cesium.Rectangle(west, south, east, north)
-            coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
-            material : Cesium.Color.RED,
-            //extrudedHeight : 300000.0,
-            height : 100000.0,
-            outline : false,
-            outlineColor : Cesium.Color.WHITE
-        }
+        var result = calculate(item.lng,item.lat);
+
+        var instance = new Cesium.GeometryInstance({
+          geometry : new Cesium.RectangleGeometry({
+            rectangle : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+            vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
+          })
         });
+
+        mapViewer.scene.primitives.add(new Cesium.Primitive({
+          geometryInstances : instance,
+          appearance : new Cesium.EllipsoidSurfaceAppearance({
+            material : Cesium.Material.fromType('Color', {
+                            color : cropColor
+                        })
+          })
+        }));
+        // model.rectangles.add({
+        // name : item.id,
+        // rectangle : {
+        //     coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+        //     material : Cesium.Color.RED.withAlpha(0.5),
+        //     height : 100.0,
+        // }
+        // });
     }
 
 }
 
 // Generate Cesium map
 var mapViewer = new Cesium.Viewer('cesiumContainer', {
-    // imageryProvider : Cesium.createTileMapServiceImageryProvider({
-    //     url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII')
-    // }),
     imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
         url : 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
     }),
+    clock: clock,
     baseLayerPicker : false,
     geocoder : false,
-    animation : false,
-    timeline : false,
+    animation : true,
+    timeline : true,
     sceneMode : Cesium.SceneMode.SCENE2D
 });
 
+
 var imageryLayers = mapViewer.imageryLayers;
+
 var viewModel = {
     layers : [],
     baseLayers : [],
@@ -147,11 +242,37 @@ var viewModel = {
 Cesium.knockout.track(viewModel);
 var baseLayers = viewModel.baseLayers;
 
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last,
+      deferTimer;
+  return function () {
+    var context = scope || this;
+
+    var now = +new Date,
+        args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+}
+
 function setupLayers() {
     // Create all the base layers that this example will support.
     // These base layers aren't really special.  It's possible to have multiple of them
     // enabled at once, just like the other layers, but it doesn't make much sense because
     // all of these layers cover the entire globe and are opaque.
+    var isoDateTime = clock.currentTime.toString();
+    var time = "TIME=" + isoDate(isoDateTime);
+/*
     addBaseLayerOption(
             'Bing Maps Aerial',
             undefined); // the current base layer
@@ -192,9 +313,71 @@ function setupLayers() {
                 maximumLevel: 19,
                 credit : new Cesium.Credit('U. S. Geological Survey')
             }));
-
+*/
     // Create the additional layers
     addAdditionalLayerOption(
+            'MODIS_Terra_Cloud_Water_Path',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "MODIS_Terra_Cloud_Water_Path",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_1km",
+                maximumLevel: 6,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,true);
+
+    addAdditionalLayerOption(
+            'AIRS_Precipitation_Day',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "AIRS_Precipitation_Day",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+    
+        addAdditionalLayerOption(
+            'Aquarius_Soil_Moisture_Daily',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "Aquarius_Soil_Moisture_Daily",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+       
+        addAdditionalLayerOption(
+            'MISR_Land_NDVI_Average_Monthly',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "MISR_Land_NDVI_Average_Monthly",
+                style: "",
+                format: "image/png",
+                tileMatrixSetID: "EPSG4326_2km",
+                maximumLevel: 5,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }),1.0,false);
+        /*addAdditionalLayerOption(
+            'Daymet_v3',
+            new Cesium.WebMapServiceImageryProvider({
+                url : 'https://thredds.ornl.gov/thredds/wms/ornldaac/1328/1988/daymet_v3_tmin_1988_na.nc4',
+                layers : '0',
+            }));*/
+    // Create the additional layers
+    /*addAdditionalLayerOption(
             'United States GOES Infrared',
             new Cesium.WebMapServiceImageryProvider({
                 url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?',
@@ -205,38 +388,15 @@ function setupLayers() {
                     format : 'image/png'
                 },
                 // proxy : new Cesium.DefaultProxy('/proxy/')
-            }));
-    addAdditionalLayerOption(
-            'United States Weather Radar',
-            new Cesium.WebMapServiceImageryProvider({
-                url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?',
-                layers : 'nexrad-n0r',
-                credit : 'Radar data courtesy Iowa Environmental Mesonet',
-                parameters : {
-                    transparent : 'true',
-                    format : 'image/png'
-                },
-                // proxy : new Cesium.DefaultProxy('/proxy/')
-            }));
-    // addAdditionalLayerOption(
-    //         'TileMapService Image',
-    //         Cesium.createTileMapServiceImageryProvider({
-    //             url : '../images/cesium_maptiler/Cesium_Logo_Color'
-    //         }),
-    //         0.2);
-    // addAdditionalLayerOption(
-    //         'Single Image',
-    //         new Cesium.SingleTileImageryProvider({
-    //             url : '../images/Cesium_Logo_overlay.png',
-    //             rectangle : Cesium.Rectangle.fromDegrees(-115.0, 38.0, -107, 39.75)
-    //         }),
-    //         1.0);
+            }));*/
+    /*
     addAdditionalLayerOption(
             'Grid',
-            new Cesium.GridImageryProvider(), 1.0, false);
+            new Cesium.GridImageryProvider());
     addAdditionalLayerOption(
             'Tile Coordinates',
-            new Cesium.TileCoordinatesImageryProvider(), 1.0, false);
+            new Cesium.TileCoordinatesImageryProvider());
+    */
 }
 setupLayers();
 updateLayerList();
@@ -274,6 +434,7 @@ function updateLayerList() {
 var toolbar = document.getElementById('toolbar');
 Cesium.knockout.applyBindings(viewModel, toolbar);
 
+
 Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(baseLayer) {
     // Handle changes to the drop-down base layer selector.
     var activeLayerIndex = 0;
@@ -293,19 +454,60 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
     baseLayer.alpha = alpha;
     updateLayerList();
 });
+
+mapViewer.clock.onTick.addEventListener(onClockUpdate);
+onClockUpdate();
+
+var crops = [
+    {
+        name:"cron",
+        value:1,
+        color: new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+    },
+    {
+        name:"wheat",
+        value:2,
+        color: new Cesium.Color(0.0, 1.0, 0.0, 0.3)
+    }
+];
+
+var Crop = function(data){
+  var self = this;
+  self.name = ko.observable(data.name);
+  self.value = ko.observable(data.value);
+  self.color = ko.observable(data.color);
+}
+
+// var ViewModelCrop = function(){
+//   var self = this;
+
+//   self.cropList = ko.observableArray([]);
+//   crops.forEach(function(cropItem){
+//     self.cropList.push(new Crop(cropItem));
+//   });
+//   // console.log(self.catList());
+//   self.currentCrop = ko.observable(self.cropList()[0]);
+
+//   self.show = function(){
+//     // remove all entity
+
+//     // insert new entity
+//     for(var i = 0; i < model.data.length; i++){
+//         if(model.data[i].type == self.currentCrop.value){
+//             var count = 0
+//             cropView.cropLayer(data[i], color);
+//         }
+//     }
+//   };
+
+//   self.selectCrop = function(crop){
+//     self.currentCrop(crop);
+//   };
+// }
+
+// ko.applyBindings(new ViewModelCrop());
+
 $(document).ready(function(){
     control.init();
-    control.ajaxClick("points",40,-100,60,-90)
-    // mapViewer.entities.add({
-    //     name : 'Corn area',
-    //     rectangle : {
-    //         //Cesium.Rectangle(west, south, east, north)
-    //         coordinates : Cesium.Rectangle.fromDegrees(30,0,40,10),
-    //         material : Cesium.Color.RED,
-    //         //extrudedHeight : 300000.0,
-    //         height : 100000.0,
-    //         outline : true,
-    //         outlineColor : Cesium.Color.WHITE
-    //     }
-    //     });
+    control.ajaxClick("points",28,-125,48,-60);
 });

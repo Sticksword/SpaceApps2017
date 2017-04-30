@@ -18,12 +18,19 @@ def init_db():
         with app.open_resource('init.sql', mode='r') as f:
             db.cursor().executescript(f.read())
 
-        with open('test_aggregated_crops.csv','rb') as fin: # `with` statement available in 2.5+
+        with open('test_aggregated_crops.csv','rb') as fin:
             # csv.DictReader uses first line in file for column headings by default
             datarow = csv.DictReader(fin) # comma is default delimiter
             to_db = [(i['lat'], i['lng'], i['type'], i['ct']) for i in datarow]
 
-        db.cursor().executemany('INSERT INTO CropData (lat,lng,type,ct) VALUES (?, ?, ?, ?);', to_db)
+        db.cursor().executemany('INSERT INTO CropData (lat, lng, type, ct) VALUES (?, ?, ?, ?);', to_db)
+
+        with open('test_aggregated_crops_predicted.csv', 'rb') as fin:
+            datarow = csv.DictReader(fin) # comma is default delimiter
+            to_db = [(i['lat'], i['lng'], i['type'], i['ct_use_normed']) for i in datarow]
+
+        db.cursor().executemany('INSERT INTO PredictedCropData (lat, lng, type, ct) VALUES (?, ?, ?, ?);', to_db)
+
         db.commit()
 
 def get_db():
@@ -58,10 +65,21 @@ def getPoints():
     lon_2 = request.args.get('lon_2')
     query = 'SELECT * FROM CropData WHERE lat > ? AND lat < ? AND lng > ? AND lng < ?'
     results = query_db(query, [lat_1, lat_2, lon_1, lon_2])
-    list_output = []
+    curr_points = []
     for point in results:
-        list_output.append({ 'id': point[0], 'lat': point[1], 'lng': point[2], 'type': point[3], 'ct': point[4] })
-    return jsonify(list_output)
+        curr_points.append({ 'id': point[0], 'lat': point[1], 'lng': point[2], 'type': point[3], 'ct': point[4] })
+
+    query = 'SELECT * FROM PredictedCropData where lat > ? AND lat < ? AND lng > ? AND lng < ?'
+    results = query_db(query, [lat_1, lat_2, lon_1, lon_2])
+    pred_points = []
+    for point in results:
+        pred_points.append({ 'id': point[0], 'lat': point[1], 'lng': point[2], 'type': point[3], 'ct': point[4] })
+
+    ret_dict = dict()
+    ret_dict['current'] = curr_points
+    ret_dict['predicted'] = pred_points
+
+    return jsonify(ret_dict)
 
 @app.route('/anothertest')
 def wheee():
