@@ -522,7 +522,7 @@ function check() {
     // soybeanCurrentCheck
     if (soybeanCurrentCheck){
         for(var i = 0; i < model.currentData.length; i++){
-            if(model.currentData[i].type == 229){
+            if(model.currentData[i].type == 5){
                 //var count = 0
                 var indensity = (model.currentData[i].ct/138233.5)*0.5;
                 if (indensity > 0.5){
@@ -538,7 +538,7 @@ function check() {
     // soybeanPredictedCheck
     if (soybeanPredictedCheck){
         for(var i = 0; i < model.predictedData.length; i++){
-            if(model.predictedData[i].type == 229){
+            if(model.predictedData[i].type == 5){
                 //var count = 0
                 var indensity = (model.predictedData[i].ct/138233.5)*0.5;
                 if (indensity > 0.5){

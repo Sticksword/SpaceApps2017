@@ -43,21 +43,18 @@
 		<!-- Header -->
 		<div class="row">
 			<h1 class="title">NASA Space App Challenge 2017</h1>
-			<h1 class="flex-container">Far East Farmers</h1>
+		</div>
+		<div class="row flex-container">
+			<h1>Far East Farmers</h1>
+		</div>
+		<div class="row">
+			<img src="{{url_for('static', filename='/res/farmIcon.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
 		</div>
 	<div class="row"><!-- toolbarII -->
-		<div class="checkbox col-md-3">
-		  <label><input id="cronCurrent" type="checkbox" onclick="check()" class="checkBox" value="">Cron Current</label>
-		</div>
-		<div class="checkbox col-md-3">
-		  <label><input id="cronPredicted" type="checkbox"  onclick="check()" class="checkbox" value="">Cron Predicted</label>
-		</div></div>
-		<div class="checkbox col-md-3">
-		  <label><input id="soybeanCurrent" type="checkbox" onclick="check()" class="checkBox" value="">Soybean Current</label>
-		</div>
-		<div class="checkbox col-md-3">
-		  <label><input id="soybeanPredicted" type="checkbox"  onclick="check()" class="checkbox" value="">Soybean Predicted</label>
-		</div>
+		<div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" onclick="check()" class="checkBox" value="">Cron Current</label></div>
+		<div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox"  onclick="check()" class="checkbox" value="">Cron Predicted</label></div>
+		<div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" onclick="check()" class="checkBox" value="">Soybean Current</label></div>
+		<div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox"  onclick="check()" class="checkbox" value="">Soybean Predicted</label></div>
 	</div>
 		<!-- Map -->
 		<div class="row">
@@ -87,10 +84,9 @@
 
 		<!-- footer -->
 		<div class="row">
-			<div class="col-md-12">
-					<img src="{{url_for('static', filename='/res/teamMember.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
-			</div>
-
+			<img src="{{url_for('static', filename='/res/teamMember.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
+		</div>
+		<div class="row">
 			<h3 class="footer">Hackers:
 				Bruce Wu/ Gina Hsu/ Mark Lai/ Michael Chen/ Ryan Lee
 			</h3>
