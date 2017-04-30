@@ -57,13 +57,16 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('index.html')
 
-@app.route('/init_db')
-def init_db_handler():
-    init_db()
-    return render_template('index.html')
-
 @app.route('/points', methods=['GET'])
 def getPoints():
+
+    # test to see if we need to init the database
+    try:
+        query = 'SELECT * FROM CropData LIMIT 1;'
+        _ = query_db(query, [])
+    except:
+        init_db()
+
     lat_1 = request.args.get('lat_1')
     lat_2 = request.args.get('lat_2')
     lon_1 = request.args.get('lon_1')

@@ -507,15 +507,14 @@ $('#crop_selection .checkbox').click(function () {
         tile_color = [0.0, 0.0, 1.0];
     }
 
-    // cronCurrentCheck
     for (var i = 0; i < data_source.length; i++) {
         if (data_source[i].type === crop_type) {
             //var count = 0
-            var indensity = (model.currentData[i].ct / CROP_TYPES[crop_type]['opacity-thresh']) * 0.5;
+            var indensity = (data_source[i].ct / CROP_TYPES[crop_type]['opacity-thresh']) * 0.5;
             if (indensity > 0.5) {
-                cropView.cropLayer(model.currentData[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], 0.5));
+                cropView.cropLayer(data_source[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], 0.5));
             } else {
-                cropView.cropLayer(model.currentData[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], indensity));
+                cropView.cropLayer(data_source[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], indensity));
             }
 
         }
