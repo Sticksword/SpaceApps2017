@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd11e83d-bc2f-4ea0-864b-89e708513e1d" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ipynotebooks/.ipynb_checkpoints/Parse NASA Weather Data-checkpoint.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/.ipynb_checkpoints/Parse NASA Daymet Weather Data-checkpoint.ipynb" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ipynotebooks/Parse NASA Weather Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse NASA Daymet Weather Data.ipynb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.slugignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Predict.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Predict.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,21 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test_aggregated_crops.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_aggregated_crops.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="9194" column="33" lean-forward="false" selection-start-line="9194" selection-start-column="33" selection-end-line="9194" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test_aggregated_crops_predicted.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_aggregated_crops_predicted.csv">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1919578">
-              <caret line="157873" column="0" lean-forward="false" selection-start-line="157873" selection-start-column="0" selection-end-line="157873" selection-end-column="0" />
+              <caret line="304617" column="0" lean-forward="false" selection-start-line="304617" selection-start-column="0" selection-end-line="304617" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -72,8 +57,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Procfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="32" lean-forward="false" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="c.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/c.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="141" column="20" lean-forward="false" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/bootstrap.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3817">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CesiumHeatmap.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/CesiumHeatmap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="212">
+              <caret line="79" column="29" lean-forward="false" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="29" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -82,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Procfile">
+      <file leaf-file-name=".slugignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.slugignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="32" lean-forward="true" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+              <caret line="0" column="13" lean-forward="true" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -100,6 +129,23 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>url</find>
+      <find>local</find>
+      <find>p</find>
+      <find>po</find>
+      <find>poi</find>
+      <find>poin</find>
+      <find>point</find>
+      <find>points</find>
+      <find>l</find>
+      <find>localhost</find>
+      <find>h</find>
+      <find>http</find>
+      <find>http:</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -116,6 +162,8 @@
         <option value="$PROJECT_DIR$/ipynotebooks/download_from_usda.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/static/js/c.js" />
+        <option value="$PROJECT_DIR$/.slugignore" />
       </list>
     </option>
   </component>
@@ -157,20 +205,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="SpaceApps2017" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SpaceApps2017" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SpaceApps2017" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ipynotebooks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -432,7 +466,7 @@
     <entry file="file://$PROJECT_DIR$/test_aggregated_crops_predicted.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1919578">
-          <caret line="157873" column="0" lean-forward="false" selection-start-line="157873" selection-start-column="0" selection-end-line="157873" selection-end-column="0" />
+          <caret line="304617" column="0" lean-forward="false" selection-start-line="304617" selection-start-column="0" selection-end-line="304617" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -466,7 +500,51 @@
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="32" lean-forward="true" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+          <caret line="0" column="32" lean-forward="false" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/c.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="141" column="20" lean-forward="false" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/bootstrap.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3817">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/CesiumHeatmap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="79" column="29" lean-forward="false" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="29" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.slugignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="13" lean-forward="true" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
           <folding />
         </state>
       </provider>

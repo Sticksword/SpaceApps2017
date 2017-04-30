@@ -5,7 +5,7 @@ var model = {
     init : function(){
 
     },
-    url:"http://localhost:5000/",
+    url:"/",
     data:[],
     currentData:[],
     predictedData:[],
@@ -196,7 +196,7 @@ var cropView = {
 // Generate Cesium map
 var mapViewer = new Cesium.Viewer('cesiumContainer', {
     imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
-        url : 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
+        url : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
     }),
     clock: clock,
     baseLayerPicker : false,
