@@ -57,7 +57,11 @@ def getPoints():
     lon_1 = request.args.get('lon_1')
     lon_2 = request.args.get('lon_2')
     query = 'SELECT * FROM CropData WHERE latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?'
-    return jsonify(query_db(query, [lat_1, lat_2, lon_1, lon_2]))
+    results = query_db(query, [lat_1, lat_2, lon_1, lon_2])
+    list_output = []
+    for point in results:
+        list_output.append({ 'id': point[0], 'longitude': point[1], 'latitude': point[2], 'type': point[3] })
+    return jsonify(list_output)
 
 @app.route('/anothertest')
 def wheee():
