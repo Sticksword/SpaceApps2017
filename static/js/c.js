@@ -2,6 +2,10 @@ var CROP_TYPES = {
     1: {
         'name': 'Corn',
         'opacity-thresh': 138233.5
+    },
+    5: {
+        'name': 'Soybean',
+        'opacity-thresh': 277805.75
     }
 };
 
@@ -491,13 +495,9 @@ var Crop = function (data) {
     self.color = ko.observable(data.color);
 };
 
-$('#crop_selection .checkbox').click(function () {
+function render_crop_option(is_current, crop_type) {
 
-    var is_current = parseInt($(this).attr('data-current'));
-    var crop_type = parseInt($(this).attr('data-crop-type'));
     var data_source, tile_color;
-
-    mapViewer.scene.primitives.removeAll();
 
     if (is_current){
         data_source = model.currentData;
@@ -520,6 +520,15 @@ $('#crop_selection .checkbox').click(function () {
         }
     }
 
+}
+
+$('#crop_selection .checkbox').click(function(){
+    mapViewer.scene.primitives.removeAll();
+    $('#crop_selection .checkbox:checked').each(function(){
+        var is_current = parseInt($(this).attr('data-current'));
+        var crop_type = parseInt($(this).attr('data-crop-type'));
+        render_crop_option(is_current, crop_type);
+    });
 });
 
 function uncheck() {
