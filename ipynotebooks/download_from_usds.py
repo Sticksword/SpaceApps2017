@@ -64,6 +64,7 @@ with open('/private/tmp/test_agged.csv', 'a') as fa:
 
                     # iterate over non-zero elements in matrix
                     for yii, xii, v in itertools.izip(img_arr.row, img_arr.col, img_arr.data):
+                        tile_count[v] += 1
 
                 for v, ct in tile_count.items():
                     lat, lng = x_y_to_lat_lon(x_i, y_i)

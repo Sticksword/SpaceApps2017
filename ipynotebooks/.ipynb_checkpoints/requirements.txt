@@ -1,0 +1,7 @@
+pyproj
+numpy
+scipy
+requests
+cStringIO
+image
+scipy
