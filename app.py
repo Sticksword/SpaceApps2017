@@ -106,6 +106,7 @@ if __name__ == '__main__':
     port = 5000
     print('Starting app on port %d' % port)
     init_db()
+    print('init DB finished')
     app.run(debug=True, port=port, host='0.0.0.0')
     url_for('static', filename='app.js')
     url_for('static', filename='app.css')

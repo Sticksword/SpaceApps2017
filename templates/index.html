@@ -41,9 +41,9 @@
     <title>NASA Space App Challenge 2017</title>
 
     <script
-            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-            crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -60,14 +60,25 @@
              style="width:80px;height:80px;">
     </div>
     <div class="row" id="crop_selection"><!-- toolbarII -->
-        <div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Corn
-            Current</label></div>
-        <div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox" class="checkbox"
-                                            value="">Corn Predicted</label></div>
-        <div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" class="checkBox"
-                                            value="">Soybean Current</label></div>
-        <div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox" class="checkbox"
-                                            value="">Soybean Predicted</label></div>
+        <div class="col-md-3">
+            <label>
+                <input id="cronCurrent" class="checkbox" type="checkbox" value=""
+                       data-crop-type="1" data-current="1">
+                Corn Current
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label><input id="cronPredicted" class="checkbox" type="checkbox"
+                          data-crop-type="1" data-current="0" value="">Corn Predicted</label>
+        </div>
+        <div class="col-md-3">
+            <label><input id="soybeanCurrent" class="checkbox" type="checkbox"
+                           data-crop-type="5" data-current="1" value="">Soybean Current</label>
+        </div>
+        <div class="col-md-3">
+            <label><input id="soybeanPredicted" class="checkbox" type="checkbox"
+                              data-crop-type="5" data-current="0" value="">Soybean Predicted</label>
+        </div>
     </div>
     <!-- Map -->
     <div class="row">

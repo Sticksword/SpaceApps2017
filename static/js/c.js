@@ -1,3 +1,10 @@
+var CROP_TYPES = {
+    1: {
+        'name': 'Corn',
+        'opacity-thresh': 138233.5
+    }
+};
+
 var gibs = gibs || {};
 
 var model = {
@@ -28,7 +35,7 @@ var previousTime = null;
 
 var isoDate = function (isoDateTime) {
     return isoDateTime.split("T")[0];
-}
+};
 
 var clock = new Cesium.Clock({
     startTime: startTime,
@@ -50,7 +57,6 @@ var updateLayers = throttle(function () {
      }*/
     //setupLayers();
 }, 250, {leading: true, trailing: true});
-;
 
 var onClockUpdate = function () {
     var isoDateTime = clock.currentTime.toString();
@@ -209,7 +215,6 @@ var mapViewer = new Cesium.Viewer('cesiumContainer', {
     timeline: true,
     sceneMode: Cesium.SceneMode.SCENE2D
 });
-
 
 var imageryLayers = mapViewer.imageryLayers;
 
@@ -488,103 +493,34 @@ var Crop = function (data) {
 
 $('#crop_selection .checkbox').click(function () {
 
-    var cronCurrentCheck = document.getElementById("cronCurrent").checked;
-    var cronPredictedCheck = document.getElementById("cronPredicted").checked;
+    var is_current = parseInt($(this).attr('data-current'));
+    var crop_type = parseInt($(this).attr('data-crop-type'));
+    var data_source, tile_color;
 
-    var soybeanCurrentCheck = document.getElementById("soybeanCurrent").checked;
-    var soybeanPredictedCheck = document.getElementById("soybeanPredicted").checked;
     mapViewer.scene.primitives.removeAll();
 
+    if (is_current){
+        data_source = model.currentData;
+        tile_color = [1.0, 0.0, 0.0];
+    }else{
+        data_source = model.predictedData;
+        tile_color = [0.0, 0.0, 1.0];
+    }
+
     // cronCurrentCheck
-    if (cronCurrentCheck) {
-        for (var i = 0; i < model.currentData.length; i++) {
-            if (model.currentData[i].type == 1) {
-                //var count = 0
-                var indensity = (model.currentData[i].ct / 138233.5) * 0.5;
-                if (indensity > 0.5) {
-                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-                } else {
-                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
-                }
-
+    for (var i = 0; i < data_source.length; i++) {
+        if (data_source[i].type === crop_type) {
+            //var count = 0
+            var indensity = (model.currentData[i].ct / CROP_TYPES[crop_type]['opacity-thresh']) * 0.5;
+            if (indensity > 0.5) {
+                cropView.cropLayer(model.currentData[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], 0.5));
+            } else {
+                cropView.cropLayer(model.currentData[i], new Cesium.Color(tile_color[0], 0.0, tile_color[2], indensity));
             }
-        }
 
-    }
-
-    // cronPredictedCheck
-    if (cronPredictedCheck) {
-        for (var i = 0; i < model.predictedData.length; i++) {
-            if (model.predictedData[i].type == 1) {
-                //var count = 0
-                var indensity = (model.predictedData[i].ct / 138233.5) * 0.5;
-                if (indensity > 0.5) {
-                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
-                } else {
-                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
-                }
-
-            }
         }
     }
 
-    // soybeanCurrentCheck
-    if (soybeanCurrentCheck) {
-        for (var i = 0; i < model.currentData.length; i++) {
-            if (model.currentData[i].type == 5) {
-                //var count = 0
-                var indensity = (model.currentData[i].ct / 138233.5) * 0.5;
-                if (indensity > 0.5) {
-                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-                } else {
-                    cropView.cropLayer(model.currentData[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
-                }
-
-            }
-        }
-    }
-
-    // soybeanPredictedCheck
-    if (soybeanPredictedCheck) {
-        for (var i = 0; i < model.predictedData.length; i++) {
-            if (model.predictedData[i].type == 5) {
-                //var count = 0
-                var indensity = (model.predictedData[i].ct / 138233.5) * 0.5;
-                if (indensity > 0.5) {
-                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
-                } else {
-                    cropView.cropLayer(model.predictedData[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
-                }
-
-            }
-        }
-    }
-    //control.putData();
-    // for(var i = 0; i < data.current.length; i++){
-    //     if(data.current[i].type == 1){
-    //         //var count = 0
-    //         var indensity = (data.current[i].ct/138233.5)*0.5;
-    //         if (indensity > 0.5){
-    //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-    //         }else{
-    //             cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
-    //         }
-
-    //     }
-    // }
-
-    // for(var i = 0; i < data.predicted.length; i++){
-    //     if(data.predicted[i].type == 1){
-    //         //var count = 0
-    //         var indensity = (data.predicted[i].ct/138233.5)*0.5;
-    //         if (indensity > 0.5){
-    //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
-    //         }else{
-    //             cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
-    //         }
-
-    //     }
-    // }
 });
 
 function uncheck() {
