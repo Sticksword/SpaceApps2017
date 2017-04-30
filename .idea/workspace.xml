@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bd11e83d-bc2f-4ea0-864b-89e708513e1d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/download_from_usds.py" afterPath="$PROJECT_DIR$/ipynotebooks/download_from_usds.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/requirements.txt" afterPath="$PROJECT_DIR$/ipynotebooks/requirements.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_aggregated_crops.csv" afterPath="$PROJECT_DIR$/test_aggregated_crops.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,17 +15,17 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test_aggregated_crops.csv" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test_aggregated_crops.csv" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_aggregated_crops.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="4871" column="34" lean-forward="false" selection-start-line="4871" selection-start-column="34" selection-end-line="4871" selection-end-column="34" />
+            <state relative-caret-position="289">
+              <caret line="9222" column="36" lean-forward="true" selection-start-line="9222" selection-start-column="36" selection-end-line="9222" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="download_from_usds.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="download_from_usds.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ipynotebooks/download_from_usds.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="780">
@@ -84,11 +83,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/crops.csv" />
-        <option value="$PROJECT_DIR$/test_aggregated_crops.csv" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/ipynotebooks/.ipynb_checkpoints/requirements.txt" />
         <option value="$PROJECT_DIR$/ipynotebooks/requirements.txt" />
         <option value="$PROJECT_DIR$/ipynotebooks/download_from_usds.py" />
+        <option value="$PROJECT_DIR$/test_aggregated_crops.csv" />
       </list>
     </option>
   </component>
@@ -394,14 +393,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_aggregated_crops.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="4871" column="34" lean-forward="false" selection-start-line="4871" selection-start-column="34" selection-end-line="4871" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -440,6 +431,14 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_aggregated_crops.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="9222" column="36" lean-forward="true" selection-start-line="9222" selection-start-column="36" selection-end-line="9222" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
