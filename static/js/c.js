@@ -90,11 +90,26 @@ var control = {
         $.getJSON(url, function (data) {
             model.currentData = data.current;
             model.predictedData = data.predicted;
+
+            console.log('got data');
             document.getElementById("cronCurrent").disabled = false;
             document.getElementById("cronPredicted").disabled = false;
 
             document.getElementById("soybeanCurrent").disabled = false;
             document.getElementById("soybeanPredicted").disabled = false;
+
+            $('#crop_selection input[type=checkbox]').click(function(){
+                console.log('clicked');
+                mapViewer.scene.primitives.removeAll();
+                $('#crop_selection input[type=checkbox]:checked').each(function(){
+                    var is_current = parseInt($(this).attr('data-current'));
+                    var crop_type = parseInt($(this).attr('data-crop-type'));
+                    render_crop_option(is_current, crop_type);
+                });
+            });
+
+            console.log('bound listeners');
+
             //control.putData();
             // for(var i = 0; i < data.current.length; i++){
             //     if(data.current[i].type == 1){
@@ -521,15 +536,6 @@ function render_crop_option(is_current, crop_type) {
     }
 
 }
-
-$('#crop_selection .checkbox').click(function(){
-    mapViewer.scene.primitives.removeAll();
-    $('#crop_selection .checkbox:checked').each(function(){
-        var is_current = parseInt($(this).attr('data-current'));
-        var crop_type = parseInt($(this).attr('data-crop-type'));
-        render_crop_option(is_current, crop_type);
-    });
-});
 
 function uncheck() {
     document.getElementById("myCheck").checked = false;
