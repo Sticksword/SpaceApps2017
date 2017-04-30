@@ -57,6 +57,11 @@ def query_db(query, args=(), one=False):
 def index():
     return render_template('index.html')
 
+@app.route('/init_db')
+def init_db():
+    init_db()
+    return render_template('index.html')
+
 @app.route('/points', methods=['GET'])
 def getPoints():
     lat_1 = request.args.get('lat_1')
