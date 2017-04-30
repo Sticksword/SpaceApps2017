@@ -1,4 +1,3 @@
-import pyproj
 import numpy as np
 import requests
 import cStringIO
@@ -7,15 +6,6 @@ from collections import Counter
 from PIL import Image
 
 from scipy.sparse import coo_matrix
-
-# setup the projection params
-acc = pyproj.Proj("+init=ESRI:102003")
-
-
-# faster implementation
-def x_y_to_lat_lon(x, y):
-    lon, lat = acc(x + (-0.93487279071164531), y + (-1606786.7973285739), inverse=True)
-    return lat, lon
 
 
 # CA only
@@ -29,7 +19,7 @@ paging = 50000
 
 # write header
 with open('/private/tmp/pyf_test_agged.csv', 'w') as f:
-    f.write("lat,lng,type,ct\n")
+    f.write("x,y,type,ct\n")
 
 en = 0
 done_boxes = set()
@@ -67,10 +57,9 @@ with open('/private/tmp/test_agged.csv', 'a') as fa:
                         tile_count[v] += 1
 
                 for v, ct in tile_count.items():
-                    lat, lng = x_y_to_lat_lon(x_i, y_i)
                     fa.write("{},{},{},{}\n".format(
-                        lat,
-                        lng,
+                        x_i,
+                        y_i,
                         v,
                         ct
                     ))
@@ -81,4 +70,4 @@ with open('/private/tmp/test_agged.csv', 'a') as fa:
                 done_boxes.add(bbox_q)
 
             en += 1
-            print ("DONE WITH", en)
+            print("DONE WITH", en)
