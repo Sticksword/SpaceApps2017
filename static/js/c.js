@@ -81,6 +81,11 @@ var control = {
         $.getJSON(url,function(data){
             model.currentData = data.current;
             model.predictedData = data.predicted;
+            document.getElementById("cronCurrent").disabled = false;
+            document.getElementById("cronPredicted").disabled = false;
+
+            document.getElementById("soybeanCurrent").disabled = false;
+            document.getElementById("soybeanPredicted").disabled = false;
             //control.putData();
             // for(var i = 0; i < data.current.length; i++){
             //     if(data.current[i].type == 1){
@@ -614,4 +619,9 @@ function uncheck() {
 $(document).ready(function(){
     control.init();
     control.ajaxClick("points",28,-125,48,-60);
+    document.getElementById("cronCurrent").disabled = true;
+    document.getElementById("cronPredicted").disabled = true;
+
+    document.getElementById("soybeanCurrent").disabled = true;
+    document.getElementById("soybeanPredicted").disabled = true;
 });
