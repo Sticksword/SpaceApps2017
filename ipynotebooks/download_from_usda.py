@@ -1,3 +1,10 @@
+
+# run with:
+"""
+heroku run bash
+cd ipynotebooks/; pip install -r requirements.txt; python -W ignore  download_from_usda.py
+"""
+
 import math
 import time
 import os
@@ -54,8 +61,9 @@ with open(out_file_name, 'a') as fa:
                     img = Image.open(img_file)
 
                     str_to_write_to_file = ""
-                    for v, ct in enumerate(img.histogram()[1:]):
-                        str_to_write_to_file += "{},{},{},{}\n".format(x_i, y_i, v, ct)
+                    for v, ct in enumerate(img.histogram()):
+                        if ct:
+                            str_to_write_to_file += "{},{},{},{}\n".format(x_i, y_i, v, ct)
                     fa.write(str_to_write_to_file)
 
                     status = "got data"

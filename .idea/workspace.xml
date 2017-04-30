@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd11e83d-bc2f-4ea0-864b-89e708513e1d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/.ipynb_checkpoints/Parse USDA Data-checkpoint.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/.ipynb_checkpoints/Parse USDA Data-checkpoint.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Parse NASA Weather Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse NASA Weather Data.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Predict.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Predict.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/download_from_usda.py" afterPath="$PROJECT_DIR$/ipynotebooks/download_from_usda.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,10 +42,10 @@
       <file leaf-file-name="download_from_usda.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ipynotebooks/download_from_usda.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="478">
-              <caret line="73" column="24" lean-forward="true" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
+            <state relative-caret-position="298">
+              <caret line="68" column="39" lean-forward="true" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#129#140#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -438,10 +443,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ipynotebooks/download_from_usda.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="73" column="24" lean-forward="true" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
+        <state relative-caret-position="298">
+          <caret line="68" column="39" lean-forward="true" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#129#140#0" expanded="true" />
           </folding>
         </state>
       </provider>
