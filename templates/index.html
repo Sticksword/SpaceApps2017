@@ -25,7 +25,7 @@
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252 ">
-	<link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+	<link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='res/favicon.ico')}}">
 	<script type="text/javascript" src="{{url_for('static', filename='js/jquery-1.12.0.min.js')}}"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='js/Cesium/Cesium.js')}}"></script>
@@ -43,14 +43,22 @@
 		<!-- Header -->
 		<div class="row">
 			<h1 class="title">NASA Space App Challenge 2017</h1>
+			<h1 class="flex-container">Far East Farmers</h1>
 		</div>
-
-	<div class="flex-container">
-		<header>
-  		<h1>Far East Farmers</h1>
-		</header>
+	<div class="row"><!-- toolbarII -->
+		<div class="checkbox col-md-3">
+		  <label><input id="cronCurrent" type="checkbox" onclick="check()" class="checkBox" value="">Cron Current</label>
+		</div>
+		<div class="checkbox col-md-3">
+		  <label><input id="cronPredicted" type="checkbox"  onclick="check()" class="checkbox" value="">Cron Predicted</label>
+		</div></div>
+		<div class="checkbox col-md-3">
+		  <label><input id="soybeanCurrent" type="checkbox" onclick="check()" class="checkBox" value="">Soybean Current</label>
+		</div>
+		<div class="checkbox col-md-3">
+		  <label><input id="soybeanPredicted" type="checkbox"  onclick="check()" class="checkbox" value="">Soybean Predicted</label>
+		</div>
 	</div>
-
 		<!-- Map -->
 		<div class="row">
 			<div class="col-md-12" style="height: 550px; padding-left: 0px;padding-right: 0px;margin-bottom: -10px;">
@@ -73,11 +81,16 @@
 				</tbody></table>
 				</div>
 			</div>
+
 		</div>
 
-		<img src="/res/teamMember.png" alt="TeamMemberIcon" style="width:80px;height:80px;">
+
 		<!-- footer -->
 		<div class="row">
+			<div class="col-md-12">
+					<img src="{{url_for('static', filename='/res/teamMember.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
+			</div>
+
 			<h3 class="footer">Hackers:
 				Bruce Wu/ Gina Hsu/ Mark Lai/ Michael Chen/ Ryan Lee
 			</h3>

@@ -36,3 +36,12 @@ body{
     transform: translateY(-33px);
     transition: none;
 }
+
+.checkBox{
+    background: rgba(42, 42, 42, 0.8);
+    padding: 4px;
+    border-radius: 4px;
+    width: 50px;
+    height: 10px;
+}
+}
