@@ -11,6 +11,10 @@ from PIL import Image
 lower_left = (-2465981, 1185123)  # Lon/Lat(-122.1233,30.6723)
 upper_right = (-1641691, 2492832)  # Lon/Lat(-116.6495,43.8157)
 
+# all USA
+lower_left = (-2385411,292658)
+upper_right = (2318621,3180773)
+
 USDA_BASE_URL = "https://nassgeodata.gmu.edu/axis2/services/CDLService/GetCDLFile?year=2016&bbox="
 
 # write header
@@ -56,17 +60,15 @@ with open(out_file_name, 'a') as fa:
 
                     status = "got data"
                     data_en += 1
-
-                else:
-                    status = "no data"
                 done_boxes.add(bbox_q)
 
             en += 1
             elapsed_seconds = int(time.time() - start_time)
-            if data_en:
-                predicted_total_mins = int(total_n / float(data_en) * elapsed_seconds) / 60
-                print("DONE WITH {}/{} ({}%), {} secs / {} mins  {}".format(
-                    en, total_n, 100 * en / total_n, elapsed_seconds, predicted_total_mins, status)
+            if data_en and status:
+                percent_done = float(data_en)/(total_n-(en-data_en))
+                predicted_total_mins = int(1/percent_done * elapsed_seconds) / 60
+                print("DONE WITH {}/{} ({}%), {} secs / {} mins".format(
+                    en, total_n, int(100 * percent_done), elapsed_seconds, predicted_total_mins)
                 )
 
 # upload file to dropbox
