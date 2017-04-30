@@ -7,6 +7,8 @@ var model = {
     },
     url:"/",
     data:[],
+    currentData:[],
+    predictedData:[],
     currentIndex:0,
     rectangles:null
 };
@@ -59,7 +61,7 @@ var onClockUpdate = function() {
         //updateLayers();
         //Bind the viewModel to the DOM elements of the UI that call for it.
         //var toolbar = document.getElementById('toolbar');
-        //var element = document.getElementById('toolbar'); 
+        //var element = document.getElementById('toolbar');
         //Cesium.knockout.cleanNode(element);
         //Cesium.knockout.applyBindings(viewModel, element);
     }
@@ -77,12 +79,32 @@ var control = {
         var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2;
         url = model.url+path+query;
         $.getJSON(url,function(data){
-            model.data = data;
+            model.currentData = data.current;
+            model.predictedData = data.predicted;
             //control.putData();
-            for(var i = 0; i < data.length; i++){
-                if(data[i].type == 1){
-                    var count = 0
-                    cropView.cropLayer(data[i]);
+            for(var i = 0; i < data.current.length; i++){
+                if(data.current[i].type == 1){
+                    //var count = 0
+                    var indensity = (data.current[i].ct/138233.5)*0.5;
+                    if (indensity > 0.5){
+                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                    }else{
+                        cropView.cropLayer(data.current[i], new Cesium.Color(1.0, 0.0, 0.0, indensity));
+                    }
+
+                }
+            }
+
+            for(var i = 0; i < data.predicted.length; i++){
+                if(data.predicted[i].type == 1){
+                    //var count = 0
+                    var indensity = (data.predicted[i].ct/138233.5)*0.5;
+                    if (indensity > 0.5){
+                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, 0.5));
+                    }else{
+                        cropView.cropLayer(data.predicted[i], new Cesium.Color(0.0, 0.0, 1.0, indensity));
+                    }
+
                 }
             }
         }).error(function(){
@@ -95,7 +117,7 @@ var cropView = {
     init:function(){
 
     },
-    cropLayer:function(item){
+    cropLayer:function(item, cropColor){
         var lonReal = function (elem){
             if (elem > 180){
                 elem = -360 + elem;
@@ -125,15 +147,15 @@ var cropView = {
         var calculate = function(lonX, latY){
 
             //1 min cover area(1/60*0.5)
-            var oneMin = 30*(1/60)*0.5;
+            var oneMin = 30*(1/60);
 
             var e = lonX + oneMin;
             e = lonReal(e);
 
-            var w = lonX - oneMin;
+            var w = lonX;
             w = lonReal(w);
 
-            var s = latY - oneMin;
+            var s = latY;
             s = latReal(s);
 
             var n = latY + oneMin;
@@ -155,7 +177,7 @@ var cropView = {
           geometryInstances : instance,
           appearance : new Cesium.EllipsoidSurfaceAppearance({
             material : Cesium.Material.fromType('Color', {
-                            color : new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+                            color : cropColor
                         })
           })
         }));
@@ -436,7 +458,56 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
 mapViewer.clock.onTick.addEventListener(onClockUpdate);
 onClockUpdate();
 
+var crops = [
+    {
+        name:"cron",
+        value:1,
+        color: new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+    },
+    {
+        name:"wheat",
+        value:2,
+        color: new Cesium.Color(0.0, 1.0, 0.0, 0.3)
+    }
+];
+
+var Crop = function(data){
+  var self = this;
+  self.name = ko.observable(data.name);
+  self.value = ko.observable(data.value);
+  self.color = ko.observable(data.color);
+}
+
+// var ViewModelCrop = function(){
+//   var self = this;
+
+//   self.cropList = ko.observableArray([]);
+//   crops.forEach(function(cropItem){
+//     self.cropList.push(new Crop(cropItem));
+//   });
+//   // console.log(self.catList());
+//   self.currentCrop = ko.observable(self.cropList()[0]);
+
+//   self.show = function(){
+//     // remove all entity
+
+//     // insert new entity
+//     for(var i = 0; i < model.data.length; i++){
+//         if(model.data[i].type == self.currentCrop.value){
+//             var count = 0
+//             cropView.cropLayer(data[i], color);
+//         }
+//     }
+//   };
+
+//   self.selectCrop = function(crop){
+//     self.currentCrop(crop);
+//   };
+// }
+
+// ko.applyBindings(new ViewModelCrop());
+
 $(document).ready(function(){
     control.init();
-    control.ajaxClick("points",30,-130,40,-120);
+    control.ajaxClick("points",28,-125,48,-60);
 });
