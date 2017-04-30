@@ -1,3 +1,10 @@
+
+# run with:
+"""
+heroku run bash
+cd ipynotebooks/; pip install -r requirements.txt; python -W ignore  download_from_usda.py
+"""
+
 import math
 import time
 import os
@@ -10,6 +17,10 @@ from PIL import Image
 # CA only
 lower_left = (-2465981, 1185123)  # Lon/Lat(-122.1233,30.6723)
 upper_right = (-1641691, 2492832)  # Lon/Lat(-116.6495,43.8157)
+
+# all USA
+lower_left = (-2385411,292658)
+upper_right = (2318621,3180773)
 
 USDA_BASE_URL = "https://nassgeodata.gmu.edu/axis2/services/CDLService/GetCDLFile?year=2016&bbox="
 
@@ -50,30 +61,23 @@ with open(out_file_name, 'a') as fa:
                     img = Image.open(img_file)
 
                     str_to_write_to_file = ""
-                    for v, ct in enumerate(img.histogram()[1:]):
-                        str_to_write_to_file += "{},{},{},{}\n".format(x_i, y_i, v, ct)
+                    for v, ct in enumerate(img.histogram()):
+                        if ct:
+                            str_to_write_to_file += "{},{},{},{}\n".format(x_i, y_i, v, ct)
                     fa.write(str_to_write_to_file)
 
                     status = "got data"
                     data_en += 1
-
-                else:
-                    status = "no data"
                 done_boxes.add(bbox_q)
 
             en += 1
             elapsed_seconds = int(time.time() - start_time)
-            predicted_total_mins = "NaN"
-            if data_en:
-                predicted_total_mins = int(total_n / float(data_en) * elapsed_seconds) / 60
-            print("DONE WITH {}/{} ({}%), {} secs / {} mins  {}".format(
-                en, total_n, 100 * en / total_n, elapsed_seconds, predicted_total_mins, status)
-            )
-
-            if data_en > 3:
-                break
-        if data_en > 3:
-            break
+            if data_en and status:
+                percent_done = float(data_en)/(total_n-(en-data_en))
+                predicted_total_mins = int(1/percent_done * elapsed_seconds) / 60
+                print("DONE WITH {}/{} ({}%), {} secs / {} mins".format(
+                    en, total_n, int(100 * percent_done), elapsed_seconds, predicted_total_mins)
+                )
 
 # upload file to dropbox
 print("Uploading to Dropbox")
