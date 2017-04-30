@@ -18,13 +18,14 @@ base_url = "https://nassgeodata.gmu.edu/axis2/services/CDLService/GetCDLFile?yea
 paging = 50000
 
 # write header
-with open('pyf_test_agged.csv', 'w') as f:
+out_file_name = 'pyf_test_agged.csv'
+with open(out_file_name, 'w') as f:
     f.write("x,y,type,ct\n")
 
 en = 0
 done_boxes = set()
 
-with open('/private/tmp/test_agged.csv', 'a') as fa:
+with open(out_file_name, 'a') as fa:
     for x_i in range(lower_left[0], upper_right[0], paging):
         for y_i in range(lower_left[1], upper_right[1], paging):
             bbox_q = ",".join([str(i) for i in [x_i, y_i, x_i + paging, y_i + paging]])
