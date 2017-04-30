@@ -18,7 +18,7 @@ base_url = "https://nassgeodata.gmu.edu/axis2/services/CDLService/GetCDLFile?yea
 paging = 50000
 
 # write header
-with open('/private/tmp/pyf_test_agged.csv', 'w') as f:
+with open('pyf_test_agged.csv', 'w') as f:
     f.write("x,y,type,ct\n")
 
 en = 0
