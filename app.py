@@ -58,7 +58,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/init_db')
-def init_db():
+def init_db_handler():
     init_db()
     return render_template('index.html')
 
