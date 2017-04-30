@@ -6,6 +6,9 @@ var model = {
 
     },
     url:"http://localhost:5000/",
+    data:[],
+    currentIndex:0,
+    rectangles:null
 };
 // Initially start at June 15, 2014
 var initialTime = Cesium.JulianDate.fromDate(
@@ -13,7 +16,7 @@ var initialTime = Cesium.JulianDate.fromDate(
 
 // Earliest date of Corrected Reflectance in archive: May 8, 2012
 var startTime = Cesium.JulianDate.fromDate(
-        new Date(Date.UTC(2012, 4, 8)));
+        new Date(Date.UTC(2012, 5, 8)));
 
 var endTime = Cesium.JulianDate.now();
 
@@ -32,17 +35,31 @@ var clock = new Cesium.Clock({
             endTime: endTime,
             currentTime: initialTime,
             multiplier: 0,   // Don't start animation by default
-            clockRange: Cesium.ClockRange.CLAMPED
+            clockRange: Cesium.ClockRange.UNBOUNDED
             });
+
+var updateLayers = throttle(function() {
+    var isoDateTime = clock.currentTime.toString();
+    var time = isoDate(isoDateTime);
+    var layers = mapViewer.scene.imageryLayers;
+    layers.removeAll();
+
+    setupLayers();
+    /*_.each(selectedSet.layers, function(layer_id) {
+        layers.addImageryProvider(createProvider(layer_id));
+    }*/
+    //setupLayers();
+}, 250, {leading: true, trailing: true});;
 
 var onClockUpdate = function() {
     var isoDateTime = clock.currentTime.toString();
     var time = isoDate(isoDateTime);
     if ( time !== previousTime ) {
         previousTime = time;
-        //updateLayerList();
+        updateLayers();
     }
 };
+
 var control = {
     // initialize function
     init: function(){
@@ -54,17 +71,17 @@ var control = {
     ajaxClick: function(path, lat1, lon1, lat2, lon2){
         var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2;
         url = model.url+path+query;
-        console.log(url)
         $.getJSON(url,function(data){
+            model.data = data;
+            //control.putData();
             for(var i = 0; i < data.length; i++){
+                var count = 0
                 cropView.cropLayer(data[i]);
             }
-            mapViewer.zoomTo(mapViewer.entities);
         }).error(function(){
             console.log('cannot load index data');
         });
-
-    },
+    }
 };
 
 var cropView = {
@@ -101,7 +118,7 @@ var cropView = {
         var calculate = function(lonX, latY){
 
             //1 min cover area(1/60*0.5)
-            var oneMin = (1/60)*0.5;
+            var oneMin = 30*(1/60)*0.5;
 
             var e = lonX + oneMin;
             e = lonReal(e);
@@ -118,17 +135,31 @@ var cropView = {
             var location = [w,s,e,n];
             return location;
         };
-        var result = calculate(item.longitude,item.latitude);
-        mapViewer.entities.add({
-        name : item.id,
-        rectangle : {
-            coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
-            material : Cesium.Color.RED,
-            height : 100000.0,
-            outline : false,
-            outlineColor : Cesium.Color.WHITE
-        }
+        var result = calculate(item.lng,item.lat);
+
+        var instance = new Cesium.GeometryInstance({
+          geometry : new Cesium.RectangleGeometry({
+            rectangle : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+            vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
+          })
         });
+
+        mapViewer.scene.primitives.add(new Cesium.Primitive({
+          geometryInstances : instance,
+          appearance : new Cesium.EllipsoidSurfaceAppearance({
+            material : Cesium.Material.fromType('Color', {
+                            color : new Cesium.Color(1.0, 0.0, 0.0, 0.3)
+                        })
+          })
+        }));
+        // model.rectangles.add({
+        // name : item.id,
+        // rectangle : {
+        //     coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
+        //     material : Cesium.Color.RED.withAlpha(0.5),
+        //     height : 100.0,
+        // }
+        // });
     }
 
 }
@@ -146,10 +177,9 @@ var mapViewer = new Cesium.Viewer('cesiumContainer', {
     sceneMode : Cesium.SceneMode.SCENE2D
 });
 
-mapViewer.clock.onTick.addEventListener(onClockUpdate);
-onClockUpdate();
 
 var imageryLayers = mapViewer.imageryLayers;
+
 var viewModel = {
     layers : [],
     baseLayers : [],
@@ -183,6 +213,29 @@ var viewModel = {
 Cesium.knockout.track(viewModel);
 var baseLayers = viewModel.baseLayers;
 
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last,
+      deferTimer;
+  return function () {
+    var context = scope || this;
+
+    var now = +new Date,
+        args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+}
+
 function setupLayers() {
     // Create all the base layers that this example will support.
     // These base layers aren't really special.  It's possible to have multiple of them
@@ -190,7 +243,7 @@ function setupLayers() {
     // all of these layers cover the entire globe and are opaque.
     var isoDateTime = clock.currentTime.toString();
     var time = "TIME=" + isoDate(isoDateTime);
-
+/*
     addBaseLayerOption(
             'Bing Maps Aerial',
             undefined); // the current base layer
@@ -231,7 +284,7 @@ function setupLayers() {
                 maximumLevel: 19,
                 credit : new Cesium.Credit('U. S. Geological Survey')
             }));
-
+*/
     // Create the additional layers
     addAdditionalLayerOption(
             'MODIS',
@@ -335,7 +388,10 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
     updateLayerList();
 });
 
+mapViewer.clock.onTick.addEventListener(onClockUpdate);
+onClockUpdate();
+
 $(document).ready(function(){
     control.init();
-    control.ajaxClick("points",40,-100,60,-90)
+    control.ajaxClick("points",30,-130,40,-120)
 });
