@@ -1,11 +1,48 @@
 
+var gibs = gibs || {};
+
 var model = {
     init : function(){
 
     },
     url:"http://localhost:5000/",
 };
+// Initially start at June 15, 2014
+var initialTime = Cesium.JulianDate.fromDate(
+        new Date(Date.UTC(2014, 5, 15)));
 
+// Earliest date of Corrected Reflectance in archive: May 8, 2012
+var startTime = Cesium.JulianDate.fromDate(
+        new Date(Date.UTC(2012, 4, 8)));
+
+var endTime = Cesium.JulianDate.now();
+
+
+
+// Keep track of the previous day. Only update the layer on a tick if the
+// day has actually changed.
+var previousTime = null;
+
+var isoDate = function(isoDateTime) {
+    return isoDateTime.split("T")[0];
+}
+
+var clock = new Cesium.Clock({
+            startTime: startTime,
+            endTime: endTime,
+            currentTime: initialTime,
+            multiplier: 0,   // Don't start animation by default
+            clockRange: Cesium.ClockRange.CLAMPED
+            });
+
+var onClockUpdate = function() {
+    var isoDateTime = clock.currentTime.toString();
+    var time = isoDate(isoDateTime);
+    if ( time !== previousTime ) {
+        previousTime = time;
+        //updateLayerList();
+    }
+};
 var control = {
     // initialize function
     init: function(){
@@ -85,10 +122,8 @@ var cropView = {
         mapViewer.entities.add({
         name : item.id,
         rectangle : {
-            //Cesium.Rectangle(west, south, east, north)
             coordinates : Cesium.Rectangle.fromDegrees(result[0], result[1], result[2], result[3]),
             material : Cesium.Color.RED,
-            //extrudedHeight : 300000.0,
             height : 100000.0,
             outline : false,
             outlineColor : Cesium.Color.WHITE
@@ -100,18 +135,19 @@ var cropView = {
 
 // Generate Cesium map
 var mapViewer = new Cesium.Viewer('cesiumContainer', {
-    // imageryProvider : Cesium.createTileMapServiceImageryProvider({
-    //     url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII')
-    // }),
     imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
         url : 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
     }),
+    clock: clock,
     baseLayerPicker : false,
     geocoder : false,
-    animation : false,
-    timeline : false,
+    animation : true,
+    timeline : true,
     sceneMode : Cesium.SceneMode.SCENE2D
 });
+
+mapViewer.clock.onTick.addEventListener(onClockUpdate);
+onClockUpdate();
 
 var imageryLayers = mapViewer.imageryLayers;
 var viewModel = {
@@ -152,6 +188,9 @@ function setupLayers() {
     // These base layers aren't really special.  It's possible to have multiple of them
     // enabled at once, just like the other layers, but it doesn't make much sense because
     // all of these layers cover the entire globe and are opaque.
+    var isoDateTime = clock.currentTime.toString();
+    var time = "TIME=" + isoDate(isoDateTime);
+
     addBaseLayerOption(
             'Bing Maps Aerial',
             undefined); // the current base layer
@@ -195,6 +234,21 @@ function setupLayers() {
 
     // Create the additional layers
     addAdditionalLayerOption(
+            'MODIS',
+            new Cesium.WebMapTileServiceImageryProvider({
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi?" + time,
+                layer: "MODIS_Terra_CorrectedReflectance_TrueColor",
+                style: "",
+                format: "image/jpeg",
+                tileMatrixSetID: "EPSG4326_250m",
+                maximumLevel: 8,
+                tileWidth: 256,
+                tileHeight: 256,
+                tilingScheme: gibs.GeographicTilingScheme()
+            }));
+
+    // Create the additional layers
+    addAdditionalLayerOption(
             'United States GOES Infrared',
             new Cesium.WebMapServiceImageryProvider({
                 url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?',
@@ -218,19 +272,6 @@ function setupLayers() {
                 },
                 // proxy : new Cesium.DefaultProxy('/proxy/')
             }));
-    // addAdditionalLayerOption(
-    //         'TileMapService Image',
-    //         Cesium.createTileMapServiceImageryProvider({
-    //             url : '../images/cesium_maptiler/Cesium_Logo_Color'
-    //         }),
-    //         0.2);
-    // addAdditionalLayerOption(
-    //         'Single Image',
-    //         new Cesium.SingleTileImageryProvider({
-    //             url : '../images/Cesium_Logo_overlay.png',
-    //             rectangle : Cesium.Rectangle.fromDegrees(-115.0, 38.0, -107, 39.75)
-    //         }),
-    //         1.0);
     addAdditionalLayerOption(
             'Grid',
             new Cesium.GridImageryProvider(), 1.0, false);
@@ -293,19 +334,8 @@ Cesium.knockout.getObservable(viewModel, 'selectedLayer').subscribe(function(bas
     baseLayer.alpha = alpha;
     updateLayerList();
 });
+
 $(document).ready(function(){
     control.init();
     control.ajaxClick("points",40,-100,60,-90)
-    // mapViewer.entities.add({
-    //     name : 'Corn area',
-    //     rectangle : {
-    //         //Cesium.Rectangle(west, south, east, north)
-    //         coordinates : Cesium.Rectangle.fromDegrees(30,0,40,10),
-    //         material : Cesium.Color.RED,
-    //         //extrudedHeight : 300000.0,
-    //         height : 100000.0,
-    //         outline : true,
-    //         outlineColor : Cesium.Color.WHITE
-    //     }
-    //     });
 });
