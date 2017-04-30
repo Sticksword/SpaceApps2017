@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd11e83d-bc2f-4ea0-864b-89e708513e1d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" afterPath="$PROJECT_DIR$/ipynotebooks/Parse USDA Data.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/c.js" afterPath="$PROJECT_DIR$/static/js/c.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -67,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="c.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="c.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/c.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="525" column="43" lean-forward="true" selection-start-line="525" selection-start-column="43" selection-end-line="525" selection-end-column="43" />
+            <state relative-caret-position="217">
+              <caret line="432" column="68" lean-forward="false" selection-start-line="432" selection-start-column="64" selection-end-line="432" selection-end-column="68" />
               <folding>
                 <element signature="e#212#361#0" expanded="false" />
                 <element signature="e#236#244#0" expanded="false" />
@@ -103,6 +102,8 @@
                 <element signature="e#5292#5486#0" expanded="false" />
                 <element signature="e#6207#6526#0" expanded="false" />
                 <element signature="e#6272#6374#0" expanded="false" />
+                <element signature="e#6592#7671#0" expanded="false" />
+                <element signature="e#6735#6789#0" expanded="false" />
                 <element signature="e#6826#7119#0" expanded="false" />
                 <element signature="e#7036#7107#0" expanded="false" />
                 <element signature="e#7156#7475#0" expanded="false" />
@@ -149,12 +150,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-55">
-              <caret line="48" column="6" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-              <folding />
+            <state relative-caret-position="384">
+              <caret line="111" column="24" lean-forward="true" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#table#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -220,6 +224,8 @@
       <find>cropView</find>
       <find>primitives</find>
       <find>layer</find>
+      <find>checked</find>
+      <find>show</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -238,9 +244,9 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/.slugignore" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/static/js/c.js" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
       </list>
     </option>
   </component>
@@ -664,14 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-55">
-          <caret line="48" column="6" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -690,8 +688,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/c.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="525" column="43" lean-forward="true" selection-start-line="525" selection-start-column="43" selection-end-line="525" selection-end-column="43" />
+        <state relative-caret-position="217">
+          <caret line="432" column="68" lean-forward="false" selection-start-line="432" selection-start-column="64" selection-end-line="432" selection-end-column="68" />
           <folding>
             <element signature="e#212#361#0" expanded="false" />
             <element signature="e#236#244#0" expanded="false" />
@@ -723,6 +721,8 @@
             <element signature="e#5292#5486#0" expanded="false" />
             <element signature="e#6207#6526#0" expanded="false" />
             <element signature="e#6272#6374#0" expanded="false" />
+            <element signature="e#6592#7671#0" expanded="false" />
+            <element signature="e#6735#6789#0" expanded="false" />
             <element signature="e#6826#7119#0" expanded="false" />
             <element signature="e#7036#7107#0" expanded="false" />
             <element signature="e#7156#7475#0" expanded="false" />
@@ -764,6 +764,17 @@
             <element signature="e#17238#17265#0" expanded="false" />
             <element signature="e#17489#17527#0" expanded="false" />
             <element signature="e#17646#17972#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="111" column="24" lean-forward="true" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#table#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>

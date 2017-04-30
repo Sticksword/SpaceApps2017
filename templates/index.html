@@ -50,34 +50,29 @@
 <div class="container">
     <!-- Header -->
     <div class="row">
-        <h1 class="title">NASA Space App Challenge 2017</h1>
-    </div>
-    <div class="row flex-container">
-        <h1>Far East Farmers</h1>
-    </div>
-    <div class="row">
         <img src="{{ url_for('static', filename='/res/farmIcon.png') }}" alt="TeamMemberIcon"
              style="width:80px;height:80px;">
+        <h1 class="title">NASA Space App Challenge 2017 - Far East Farmers</h1>
     </div>
+
     <div class="row" id="crop_selection"><!-- toolbarII -->
-        <div class="col-md-3">
+        <div class="col-md-3" class="checkbox">
             <label>
-                <input id="cronCurrent" class="checkbox" type="checkbox" value=""
-                       data-crop-type="1" data-current="1">
-                Corn Current
+                <input id="cronCurrent" type="checkbox" value=""
+                       data-crop-type="1" data-current="1"> 🌽 Corn Current
             </label>
         </div>
-        <div class="col-md-3">
-            <label><input id="cronPredicted" class="checkbox" type="checkbox"
-                          data-crop-type="1" data-current="0" value="">Corn Predicted</label>
+        <div class="col-md-3" class="checkbox">
+        <label><input id="cronPredicted" type="checkbox"
+                          data-crop-type="1" data-current="0" value=""> 🌽 Corn Predicted</label>
         </div>
-        <div class="col-md-3">
-            <label><input id="soybeanCurrent" class="checkbox" type="checkbox"
-                           data-crop-type="5" data-current="1" value="">Soybean Current</label>
+        <div class="col-md-3" class="checkbox">
+            <label><input id="soybeanCurrent" type="checkbox"
+                           data-crop-type="5" data-current="1" value=""> 🌱 Soybean Current</label>
         </div>
-        <div class="col-md-3">
-            <label><input id="soybeanPredicted" class="checkbox" type="checkbox"
-                              data-crop-type="5" data-current="0" value="">Soybean Predicted</label>
+        <div class="col-md-3" class="checkbox">
+            <label><input id="soybeanPredicted" type="checkbox"
+                              data-crop-type="5" data-current="0" value=""> 🌱 Soybean Predicted</label>
         </div>
     </div>
     <!-- Map -->
@@ -85,8 +80,10 @@
         <div class="col-md-12" style="height: 550px; padding-left: 0px;padding-right: 0px;margin-bottom: -10px;">
             <div id="cesiumContainer" class="fullSize"></div>
             <div id="toolbar">
-                <!-- toolbar -->
-                <table>
+                <a data-toggle="collapse" data-target="#toolbar-collapsible">Show/Hide Layers</a>
+
+                <div id="toolbar-collapsible">
+                    <table>
                     <tbody data-bind="foreach: layers">
                     <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
                         <td><input type="checkbox" data-bind="checked: show"></td>
@@ -113,6 +110,7 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
 
