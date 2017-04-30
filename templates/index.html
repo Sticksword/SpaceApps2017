@@ -36,6 +36,10 @@
 
 <title>NASA Space App Challenge 2017</title>
 
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -50,11 +54,11 @@
 		<div class="row">
 			<img src="{{url_for('static', filename='/res/farmIcon.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
 		</div>
-	<div class="row"><!-- toolbarII -->
-		<div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" onclick="check()" class="checkBox" value="">Cron Current</label></div>
-		<div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox"  onclick="check()" class="checkbox" value="">Cron Predicted</label></div>
-		<div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" onclick="check()" class="checkBox" value="">Soybean Current</label></div>
-		<div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox"  onclick="check()" class="checkbox" value="">Soybean Predicted</label></div>
+	<div class="row" id="crop_selection"><!-- toolbarII -->
+		<div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Cron Current</label></div>
+		<div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox" class="checkbox" value="">Cron Predicted</label></div>
+		<div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Soybean Current</label></div>
+		<div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox" class="checkbox" value="">Soybean Predicted</label></div>
 	</div>
 		<!-- Map -->
 		<div class="row">

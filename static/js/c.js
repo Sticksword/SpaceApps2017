@@ -481,9 +481,10 @@ var Crop = function(data){
   self.name = ko.observable(data.name);
   self.value = ko.observable(data.value);
   self.color = ko.observable(data.color);
-}
+};
 
-function check() {
+$('#crop_selection .checkbox').click(function(){
+
     var cronCurrentCheck = document.getElementById("cronCurrent").checked;
     var cronPredictedCheck = document.getElementById("cronPredicted").checked;
 
@@ -581,7 +582,7 @@ function check() {
 
     //     }
     // }
-}
+});
 
 function uncheck() {
     document.getElementById("myCheck").checked = false;
