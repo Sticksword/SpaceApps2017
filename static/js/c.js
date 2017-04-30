@@ -14,18 +14,15 @@ var control = {
     showData: function(){
 
     },
-    ajaxClick: function(path){
-        url_data = model.url+path;
-        $.ajax({
-            dataType:'text',
-            url:url_data,
-            success: function(data){
-
-            },
-            error: function(){
-                console.log("cannot load data");
-            }
+    ajaxClick: function(path, lat1, lon1, lat2, lat2){
+        var query="?lat_1="+lat1+"&lon_1="+lon1+"&lat_2="+lat2+"&lon_2="+lon2
+        url = model.url+path+query;
+        $.getJSON(url,function(data){
+            console.log(data)
+        }).error(function(){
+            console.log('cannot load index data');
         });
+
     },
 };
 
