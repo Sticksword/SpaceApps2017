@@ -2,106 +2,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-	.container{
-	    text-align: center;
-	}
-	.flex-container {
-	    display: -webkit-flex;
-	    display: flex;
-	    -webkit-flex-flow: row wrap;
-	    flex-flow: row wrap;
-	    text-align: center;
-	}
+    <style>
+        .container {
+            text-align: center;
+        }
 
-	.flex-container > * {
-	    padding: 15px;
-	    -webkit-flex: 1 100%;
-	    flex: 1 100%;
-	}
+        .flex-container {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            flex-flow: row wrap;
+            text-align: center;
+        }
 
-	header {background: green;color:white;}
+        .flex-container > * {
+            padding: 15px;
+            -webkit-flex: 1 100%;
+            flex: 1 100%;
+        }
 
-</style>
+        header {
+            background: green;
+            color: white;
+        }
 
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252 ">
-	<link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='res/favicon.ico')}}">
-	<script type="text/javascript" src="{{url_for('static', filename='js/jquery-1.12.0.min.js')}}"></script>
-	<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-	<script type="text/javascript" src="{{url_for('static', filename='js/Cesium/Cesium.js')}}"></script>
-	<script type="text/javascript" src="{{url_for('static', filename='libs/gibs.js')}}"></script>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/bucket.css')}}"></link>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}"></link>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"></link>
+    </style>
 
-<title>NASA Space App Challenge 2017</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252 ">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='res/favicon.ico') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.12.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/Cesium/Cesium.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/gibs.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bucket.css') }}"></link>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"></link>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></link>
+
+    <title>NASA Space App Challenge 2017</title>
 
     <script
-  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-  crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
-	<div class="container">
-		<!-- Header -->
-		<div class="row">
-			<h1 class="title">NASA Space App Challenge 2017</h1>
-		</div>
-		<div class="row flex-container">
-			<h1>Far East Farmers</h1>
-		</div>
-		<div class="row">
-			<img src="{{url_for('static', filename='/res/farmIcon.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;">
-		</div>
-	<div class="row" id="crop_selection"><!-- toolbarII -->
-		<div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Cron Current</label></div>
-		<div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox" class="checkbox" value="">Cron Predicted</label></div>
-		<div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Soybean Current</label></div>
-		<div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox" class="checkbox" value="">Soybean Predicted</label></div>
-	</div>
-		<!-- Map -->
-		<div class="row">
-			<div class="col-md-12" style="height: 550px; padding-left: 0px;padding-right: 0px;margin-bottom: -10px;">
-				<div id="cesiumContainer" class="fullSize"></div>
-				<div id="toolbar">
-				<!-- toolbar -->
-				<table><tbody data-bind="foreach: layers">
-			    <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
-			        <td><input type="checkbox" data-bind="checked: show"></td>
-			        <td>
-			            <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
-			            <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.baseLayers, optionsText: 'name', value: $parent.selectedLayer"></select>
-			        </td>
-			        <td>
-			            <input type="range" min="0" max="1" step="0.01" data-bind="value: alpha, valueUpdate: 'input'">
-			        </td>
-			        <td><button type="button" class="cesium-button" data-bind="click: function() { $parent.raise($data, $index()); }, visible: $parent.canRaise($index())">▲</button></td>
-			        <td><button type="button" class="cesium-button" data-bind="click: function() { $parent.lower($data, $index()); }, visible: $parent.canLower($index())">▼</button></td>
-			    </tr>
-				</tbody></table>
-				</div>
-			</div>
+<div class="container">
+    <!-- Header -->
+    <div class="row">
+        <h1 class="title">NASA Space App Challenge 2017</h1>
+    </div>
+    <div class="row flex-container">
+        <h1>Far East Farmers</h1>
+    </div>
+    <div class="row">
+        <img src="{{ url_for('static', filename='/res/farmIcon.png') }}" alt="TeamMemberIcon"
+             style="width:80px;height:80px;">
+    </div>
+    <div class="row" id="crop_selection"><!-- toolbarII -->
+        <div class="col-md-3"><label><input id="cronCurrent" class="checkbox" type="checkbox" class="checkBox" value="">Corn
+            Current</label></div>
+        <div class="col-md-3"><label><input id="cronPredicted" class="checkbox" type="checkbox" class="checkbox"
+                                            value="">Corn Predicted</label></div>
+        <div class="col-md-3"><label><input id="soybeanCurrent" class="checkbox" type="checkbox" class="checkBox"
+                                            value="">Soybean Current</label></div>
+        <div class="col-md-3"><label><input id="soybeanPredicted" class="checkbox" type="checkbox" class="checkbox"
+                                            value="">Soybean Predicted</label></div>
+    </div>
+    <!-- Map -->
+    <div class="row">
+        <div class="col-md-12" style="height: 550px; padding-left: 0px;padding-right: 0px;margin-bottom: -10px;">
+            <div id="cesiumContainer" class="fullSize"></div>
+            <div id="toolbar">
+                <!-- toolbar -->
+                <table>
+                    <tbody data-bind="foreach: layers">
+                    <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
+                        <td><input type="checkbox" data-bind="checked: show"></td>
+                        <td>
+                            <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
+                            <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.baseLayers, optionsText: 'name', value: $parent.selectedLayer"></select>
+                        </td>
+                        <td>
+                            <input type="range" min="0" max="1" step="0.01"
+                                   data-bind="value: alpha, valueUpdate: 'input'">
+                        </td>
+                        <td>
+                            <button type="button" class="cesium-button"
+                                    data-bind="click: function() { $parent.raise($data, $index()); }, visible: $parent.canRaise($index())">
+                                ▲
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="cesium-button"
+                                    data-bind="click: function() { $parent.lower($data, $index()); }, visible: $parent.canLower($index())">
+                                ▼
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-		</div>
-		<div class="row">
-			<h1 style="color:black;">scape</h1>
-		</div>
+    </div>
+    <div class="row">
+        <h1 style="color:black;">scape</h1>
+    </div>
 
 
-		<!-- footer -->
-		<div class="row">
-			<div class="col-md-3"><img src="{{url_for('static', filename='/res/teamMember.png')}}" alt="TeamMemberIcon" style="width:80px;height:80px;"></div>
-			<div class="col-md-8"><h3 class="footer">Hackers:
-				Bruce Wu/ Gina Hsu/ Mark Lai/ Michael Chen/ Ryan Lee
-			</h3>
-			</div>
-			<div class="col-md-1"></div>
-		</div>
-	</div>
+    <!-- footer -->
+    <div class="row">
+        <div class="col-md-3"><img src="{{ url_for('static', filename='/res/teamMember.png') }}" alt="TeamMemberIcon"
+                                   style="width:80px;height:80px;"></div>
+        <div class="col-md-8"><h3 class="footer">Hackers:
+            Bruce Wu/ Gina Hsu/ Mark Lai/ Michael Chen/ Ryan Lee
+        </h3>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
 
 
-	<script type="text/javascript" src="{{url_for('static', filename='js/c.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/c.js') }}"></script>
 </body>
 </html>
 
